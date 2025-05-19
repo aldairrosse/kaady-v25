@@ -1,0 +1,17 @@
+{
+    "language": "es",
+    "timezone": "LOCAL",
+    "currency": "MXN",
+    "theme": "system",
+    "notification": {
+        "permission": false,
+        "publicity": false,
+        "events": false
+    },
+    "session": {
+        "token": "",
+        "user": "",
+        "remember": true,
+        "cookies": false
+    }
+}
