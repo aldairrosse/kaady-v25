@@ -1,29 +1,39 @@
+import Logo from "@components/Logo";
+import Rights from "@components/Rights";
 import Root from "@components/Root";
-import { Box, Stack, Typography } from "@mui/material";
+import { Button, Link, Stack } from "@mui/material";
+import { Outlet } from "react-router";
 
 export default function Home() {
     return (
         <Root>
-            <Stack
-                direction={"row"}
-                height={"100%"}
-                alignItems={"center"}
-                gap={2}
-                flexWrap={"wrap-reverse"}
-                justifyContent={'center'}
-            >
-                <Stack flexGrow={1}>
-                    <Typography variant="h2">
-                        Bienvenido
-                    </Typography>
+            <Stack direction={"row"} alignItems={"center"} gap={6} paddingY={2}>
+                <Logo type="icon" height="40px" />
+                <Stack flexGrow={1} direction={"row"} gap={4}>
+                    <Link underline="none">
+                        Inicio
+                    </Link>
+                    <Link color="textPrimary" underline="none">
+                        Membresías
+                    </Link>
+                    <Link color="textPrimary" underline="none">
+                        Actividades
+                    </Link>
+                    <Link color="textPrimary" underline="none">
+                        Centros
+                    </Link>
+                    <Link color="textPrimary" underline="none">
+                        Socios
+                    </Link>
                 </Stack>
-                <Box
-                    width={400}
-                    height={400}
-                    bgcolor={'GrayText'}
-                    borderRadius={4}
-                ></Box>
+                <Button variant="contained">Registrame</Button>
+            </Stack>
+            <Outlet />
+            <Stack>
+                <Stack alignItems={"center"} paddingY={4}>
+                    <Rights />
+                </Stack>
             </Stack>
         </Root>
-    )
+    );
 }

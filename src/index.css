@@ -1,3 +1,14 @@
-html,body {
-  color-scheme: light dark;
+html,
+body {
+    color-scheme: light dark;
+}
+
+.bg-main {
+    background: linear-gradient(45deg, #8aa9e7, #b7cdee, #e3ecf5);
+}
+
+@media (prefers-color-scheme: dark) {
+    .bg-main {
+        background: linear-gradient(45deg, #0f1b2c, #11284b, #1363a9);
+    }
 }
