@@ -2,7 +2,7 @@ import { Theme } from "@mui/material";
 import { Scheme } from "./Scheme";
 import { Settings } from "./Settings";
 
-export interface App {
+export interface AppContext {
     scheme: Scheme;
     theme: Theme;
     settings: Settings;
