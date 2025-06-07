@@ -1,66 +1,82 @@
-import Context from '@components/Context'
-import { CustomTheme } from '@models/CustomTheme'
-import { Settings } from '@models/Settings'
-import { createTheme, CssBaseline, ThemeProvider, useMediaQuery } from '@mui/material'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { BrowserRouter } from 'react-router-dom'
-import { useRoutes } from 'react-router-dom'
-import routes from '~react-pages'
+import Context from "@components/Context";
+import { CustomTheme } from "@models/CustomTheme";
+import { Settings } from "@models/Settings";
+import {
+    createTheme,
+    CssBaseline,
+    ThemeProvider,
+    useMediaQuery,
+} from "@mui/material";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { BrowserRouter } from "react-router-dom";
+import { useRoutes } from "react-router-dom";
+import routes from "~react-pages";
 
-import material from '@config/material-theme.json'
-import kaady from '@config/kaady-settings.json'
+import material from "@config/material-theme.json";
+import kaady from "@config/kaady-settings.json";
+import { ScrollToTop } from "@components/ScrollToTop";
 
 function Routes() {
-  return useRoutes(routes)
+    return useRoutes(routes);
 }
 
 function App() {
-  const [theme, setTheme] = useState(createTheme())
-  const [scheme, setScheme] = useState(material.schemes.light)
-  const [settings, setSettings] = useState(kaady as Settings)
-  const isDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+    const [theme, setTheme] = useState(createTheme());
+    const [scheme, setScheme] = useState(material.schemes.light);
+    const [settings, setSettings] = useState(kaady as Settings);
+    const isDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
-  const update = useCallback((value: Settings) => {
-    let updatedScheme = material.schemes.light
-    let options = new CustomTheme(updatedScheme, false);
+    const update = useCallback(
+        (value: Settings) => {
+            let updatedScheme = material.schemes.light;
+            let options = new CustomTheme(updatedScheme, false);
 
-    if (value.theme === 'system') {
-      if (isDarkMode) {
-        updatedScheme = material.schemes.dark
-      }
-      options = new CustomTheme(updatedScheme, isDarkMode)
-    } else if (material.schemes[value.theme]) {
-      updatedScheme = material.schemes[value.theme]
-      options = new CustomTheme(updatedScheme, value.theme.includes('dark'));
-    }
+            if (value.theme === "system") {
+                if (isDarkMode) {
+                    updatedScheme = material.schemes.dark;
+                }
+                options = new CustomTheme(updatedScheme, isDarkMode);
+            } else if (material.schemes[value.theme]) {
+                updatedScheme = material.schemes[value.theme];
+                options = new CustomTheme(
+                    updatedScheme,
+                    value.theme.includes("dark")
+                );
+            }
 
-    const updatedTheme = createTheme(options);
-    setSettings(value);
-    setScheme(updatedScheme);
-    setTheme(updatedTheme);
-  }, [isDarkMode])
+            const updatedTheme = createTheme(options);
+            setSettings(value);
+            setScheme(updatedScheme);
+            setTheme(updatedTheme);
+        },
+        [isDarkMode]
+    );
 
-  useEffect(() => {
-    update(kaady as Settings);
-  }, [update])
+    useEffect(() => {
+        update(kaady as Settings);
+    }, [update]);
 
-  const value = useMemo(() => ({
-    updateSettings: update,
-    settings,
-    scheme,
-    theme,
-  }), [theme, scheme, settings])
+    const value = useMemo(
+        () => ({
+            updateSettings: update,
+            settings,
+            scheme,
+            theme,
+        }),
+        [theme, scheme, settings]
+    );
 
-  return (
-    <Context.Provider value={value}>
-      <ThemeProvider theme={value.theme}>
-        <CssBaseline />
-        <BrowserRouter>
-          <Routes />
-        </BrowserRouter>
-      </ThemeProvider>
-    </Context.Provider>
-  )
+    return (
+        <Context.Provider value={value}>
+            <ThemeProvider theme={value.theme}>
+                <CssBaseline />
+                <BrowserRouter>
+                    <ScrollToTop />
+                    <Routes />
+                </BrowserRouter>
+            </ThemeProvider>
+        </Context.Provider>
+    );
 }
 
-export default App
+export default App;

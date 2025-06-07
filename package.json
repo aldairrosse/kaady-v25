@@ -1,7 +1,10 @@
 {
-  "name": "ks",
+  "name": "kaady-sport-web",
+  "author": {
+    "name": "Frankil A."
+  },
   "private": true,
-  "version": "0.0.0",
+  "version": "2.25.07062025",
   "type": "module",
   "scripts": {
     "dev": "vite",

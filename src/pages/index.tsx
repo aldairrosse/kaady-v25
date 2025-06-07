@@ -12,9 +12,7 @@ function Welcome() {
     const navigate = useNavigate();
 
     const toHome = () => {
-        navigate("/home", {
-            viewTransition: true,
-        });
+        navigate("/home");
     };
 
     return (
@@ -86,6 +84,8 @@ function Welcome() {
                             style={{
                                 objectFit: "contain",
                             }}
+                            alt="Personas entrenando"
+                            title="training"
                         />
                     </Box>
                 </Stack>

@@ -36,8 +36,8 @@ function Memberships() {
                 <Stack
                     component={"header"}
                     padding={"16px"}
-                    color={scheme.onPrimaryContainer}
-                    bgcolor={scheme.primaryContainer}
+                    color={scheme.onPrimary}
+                    bgcolor={scheme.primary}
                 >
                     <Typography variant="h5" component={"h1"}>
                         {item.title}
@@ -174,10 +174,10 @@ function Memberships() {
                 marginTop={2}
                 marginBottom={10}
             >
-                <Typography variant="h4" component={"h1"}>
+                <Typography variant="h3" component={"h1"}>
                     Usa una membresía con varias opciones
                 </Typography>
-                <Typography variant="h6" className="opacity-80" marginTop={2}>
+                <Typography variant="h6" className="opacity-80" marginTop={4}>
                     En Kaady Sport obtienes más ventajas con una membresía a tu
                     medida, elije y organiza varias actividades a tu gusto en el
                     lugar más cerca de ti
@@ -200,7 +200,7 @@ function Memberships() {
             >
                 {cards_content}
             </Grid>
-            <Typography variant="body1">
+            <Typography variant="body1" marginBottom={4}>
                 * Aplica términos y condiciones según el periodo de la
                 membresía. Consulta Términos y Condiciones.
             </Typography>
