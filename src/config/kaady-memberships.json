@@ -1,0 +1,55 @@
+[
+    {
+        "title": "Basic",
+        "locked": false,
+        "description": [
+            "Actividades básicas",
+            "Acceso a centros seleccionados"
+        ],
+        "price_1": 550.0,
+        "price_3": 1499.0,
+        "price_6": 2849.0,
+        "price_12": 5599.0
+    },
+    {
+        "title": "Silver",
+        "locked": false,
+        "description": [
+            "Actividades básicas",
+            "Acceso a centros diversos",
+            "Descuentos y promociones"
+        ],
+        "price_1": 799.0,
+        "price_3": 2150.0,
+        "price_6": 4199.0,
+        "price_12": 8150.0
+    },
+    {
+        "title": "Gold",
+        "locked": true,
+        "description": [
+            "Actividades avanzadas",
+            "Acceso a centros diversos",
+            "Herramientas digitales",
+            "Descuentos y promociones"
+        ],
+        "price_1": 1400.0,
+        "price_3": 3800.0,
+        "price_6": 7350.0,
+        "price_12": 14300.0
+    },
+    {
+        "title": "Black",
+        "locked": false,
+        "description": [
+            "Todas las actividades",
+            "Acceso a todos los centros",
+            "Herramientas digitales",
+            "Descuentos y promociones"
+        ],
+        "price_1": 2200.0,
+        "price_3": 6000.0,
+        "price_6": 11500.0,
+        "price_12": 22500.0
+    }
+]

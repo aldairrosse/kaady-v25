@@ -274,3 +274,6 @@ body {
 .opacity-100 {
     opacity: 1 !important;
 }
+.text-strike {
+    text-decoration: line-through;
+}
