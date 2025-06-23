@@ -23,7 +23,7 @@ const Home = () => {
                     borderColor: scheme.outline,
                     borderStyle: "solid",
                 }}
-                gap={2}
+                gap={8}
                 padding={6}
                 marginTop={2}
                 marginBottom={10}
@@ -45,8 +45,8 @@ const Home = () => {
                     </Typography>
                 </Stack>
                 <Stack direction={"row"} gap={4}>
-                    <BookRounded sx={{ fontSize: 56 }} color="primary" />
-                    <WhereToVoteRounded sx={{ fontSize: 56 }} color="success" />
+                    <BookRounded sx={{ fontSize: 64 }} color="primary" />
+                    <WhereToVoteRounded sx={{ fontSize: 64 }} color="success" />
                 </Stack>
             </Stack>
             <Stack

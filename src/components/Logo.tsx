@@ -25,7 +25,7 @@ function Logo({
         sx: (t) => ({
             height: height,
             maxHeight: maxHeight,
-            width: "min-content",
+            width: "auto",
             fill: color
                 ? color
                 : t.palette.mode == "dark"

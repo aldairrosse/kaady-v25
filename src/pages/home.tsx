@@ -78,7 +78,7 @@ export default function Home() {
                 )}
                 <Stack flexGrow={1} direction={"row"} justifyContent={"end"}>
                     {isLarge ? (
-                        <Button variant="contained">Registrame</Button>
+                        <Button variant="contained" href="/login">Registrame</Button>
                     ) : (
                         <IconButton onClick={(e) => setAnchor(e.currentTarget)}>
                             <MenuRounded />
@@ -128,7 +128,7 @@ export default function Home() {
                         </MenuItem>
 
                         <Stack paddingY={2} paddingX={2}>
-                            <Button variant="contained" fullWidth>
+                            <Button variant="contained" fullWidth href="/login">
                                 Registrame
                             </Button>
                         </Stack>

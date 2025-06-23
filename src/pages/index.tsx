@@ -22,7 +22,7 @@ function Welcome() {
                     paddingX={6}
                     paddingTop={4}
                     paddingBottom={1}
-                    alignItems={isMobile ? "center" : ""}
+                    alignItems={isMobile ? "center" : "start"}
                 >
                     <Logo height={isMobile ? "32px" : "48px"} />
                 </Stack>
@@ -63,7 +63,7 @@ function Welcome() {
                             flexWrap={"wrap"}
                             justifyContent={isMobile ? "center" : ""}
                         >
-                            <Button size="large" variant="contained">
+                            <Button size="large" variant="contained" href="/login">
                                 Registrarme
                             </Button>
                             <Button size="large" onClick={toHome}>
