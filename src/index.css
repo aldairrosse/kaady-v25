@@ -16,6 +16,13 @@ h6 {
     margin: 0;
 }
 
+* {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
 @media (prefers-color-scheme: dark) {
     .bg-main {
         background: linear-gradient(45deg, #0f1b2c, #11284b, #1363a9);

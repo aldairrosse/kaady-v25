@@ -32,7 +32,8 @@ export default function Home() {
     }, [ruta]);
 
     useEffect(() => {
-        setRuta(pathname);
+        const cleaned = pathname.replace(/\/+$/, "");
+        setRuta(cleaned);
     }, [pathname]);
 
     const sx: SxProps = {
@@ -40,6 +41,7 @@ export default function Home() {
         padding: "8px 12px",
     };
 
+    const toRegister = () => navigate("/register");
     const close = () => setAnchor(undefined);
 
     return (
@@ -78,7 +80,13 @@ export default function Home() {
                 )}
                 <Stack flexGrow={1} direction={"row"} justifyContent={"end"}>
                     {isLarge ? (
-                        <Button variant="contained" href="/login">Registrame</Button>
+                        <Button
+                            variant="contained"
+                            onClick={toRegister}
+                            disableElevation
+                        >
+                            Registrame
+                        </Button>
                     ) : (
                         <IconButton onClick={(e) => setAnchor(e.currentTarget)}>
                             <MenuRounded />
@@ -128,7 +136,12 @@ export default function Home() {
                         </MenuItem>
 
                         <Stack paddingY={2} paddingX={2}>
-                            <Button variant="contained" fullWidth href="/login">
+                            <Button
+                                variant="contained"
+                                fullWidth
+                                onClick={toRegister}
+                                disableElevation
+                            >
                                 Registrame
                             </Button>
                         </Stack>

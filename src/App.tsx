@@ -7,7 +7,7 @@ import {
     ThemeProvider,
     useMediaQuery,
 } from "@mui/material";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { useRoutes } from "react-router-dom";
 import routes from "~react-pages";
@@ -15,9 +15,14 @@ import routes from "~react-pages";
 import material from "@config/material-theme.json";
 import kaady from "@config/kaady-settings.json";
 import { ScrollToTop } from "@components/ScrollToTop";
+import Splash from "@components/Splash";
 
 function Routes() {
-    return useRoutes(routes);
+    return (
+        <Suspense fallback={<Splash />}>
+            {useRoutes(routes)}
+        </Suspense>
+    );
 }
 
 function App() {

@@ -40,6 +40,9 @@
       ],
       "@config/*": [
         "config/*"
+      ],
+      "@views/*": [
+        "views/*"
       ]
     }
   },

@@ -1,0 +1,184 @@
+[
+  {
+    "nombre": "Complejo Olímpico México 68",
+    "lat": 19.4005,
+    "lng": -99.1572,
+    "actividades": ["natación", "gimnasia", "boxeo", "baloncesto"],
+    "contactos": ["56048344"]
+  },
+  {
+    "nombre": "Gimnasio Olímpico Juan de la Barrera",
+    "lat": 19.4008,
+    "lng": -99.1590,
+    "actividades": ["voleibol", "baloncesto", "eventos"],
+    "contactos": []
+  },
+  {
+    "nombre": "Deportivo Benito Juárez",
+    "lat": 19.3640,
+    "lng": -99.1611,
+    "actividades": ["futbol", "natación", "gimnasia", "artes marciales"],
+    "contactos": ["54225300 ext.1269"]
+  },
+  {
+    "nombre": "Deportivo Joaquín Capilla",
+    "lat": 19.3545,
+    "lng": -99.1880,
+    "actividades": ["natación", "gimnasia", "artes marciales"],
+    "contactos": ["5563226621"]
+  },
+  {
+    "nombre": "Deportivo Gumersindo Romero",
+    "lat": 19.3684,
+    "lng": -99.1642,
+    "actividades": ["fútbol", "baloncesto", "gimnasia"],
+    "contactos": ["55390727"]
+  },
+  {
+    "nombre": "Centro Deportivo Coyoacán A.C.",
+    "lat": 19.3500,
+    "lng": -99.1490,
+    "actividades": ["spinning", "natación", "squash", "fútbol"],
+    "contactos": ["5591830100","5591830121"]
+  },
+  {
+    "nombre": "Centro Asturiano de México (Polanco)",
+    "lat": 19.4350,
+    "lng": -99.1895,
+    "actividades": ["natación", "gimnasio", "tenis", "frontón"],
+    "contactos": ["5552810141"]
+  },
+  {
+    "nombre": "Centro Deportivo Chapultepec",
+    "lat": 19.4260,
+    "lng": -99.1890,
+    "actividades": ["squash", "tenis", "fútbol", "natación"],
+    "contactos": ["552763932"]
+  },
+  {
+    "nombre": "Centro Deportivo Israelita A.C.",
+    "lat": 19.4770,
+    "lng": -99.2110,
+    "actividades": ["natación", "gimnasio", "tenis", "basketball"],
+    "contactos": ["5526297400"]
+  },
+  {
+    "nombre": "Centro Deportivo Villa Olímpica",
+    "lat": 19.4180,
+    "lng": -99.1140,
+    "actividades": ["atletismo", "boxeo", "natación", "taekwondo"],
+    "contactos": []
+  },
+  {
+    "nombre": "Ciudad Deportiva Magdalena Mixhuca",
+    "lat": 19.4055,
+    "lng": -99.0867,
+    "actividades": ["futbol", "natación", "box", "skate", "tenis", "béisbol"],
+    "contactos": []
+  },
+  {
+    "nombre": "Centro Nacional de Desarrollo de Talentos Deportivos (CNAR)",
+    "lat": 19.4050,
+    "lng": -99.0860,
+    "actividades": ["gimnasia", "atletismo", "natación", "béisbol", "judo"],
+    "contactos": []
+  },
+  {
+    "nombre": "Centro Acuático Ceforma",
+    "lat": 19.3750,
+    "lng": -99.1820,
+    "actividades": ["natación", "clavados", "waterpolo"],
+    "contactos": []
+  },
+  {
+    "nombre": "Deportivo Guelatao",
+    "lat": 19.4420,
+    "lng": -99.1470,
+    "actividades": ["yoga", "kick boxing", "natación", "karate", "baloncesto"],
+    "contactos": []
+  },
+  {
+    "nombre": "Alberca Olímpica UNAM",
+    "lat": 19.3327,
+    "lng": -99.1907,
+    "actividades": ["natación", "waterpolo", "clavados"],
+    "contactos": []
+  },
+  {
+    "nombre": "Parque de Cultura Urbana (Parcur)",
+    "lat": 19.4240,
+    "lng": -99.1825,
+    "actividades": ["skateboarding", "parkour", "bicicleta"],
+    "contactos": []
+  },
+  {
+    "nombre": "Smart Fit (Sucursal CDMX)",
+    "lat": 19.4230,
+    "lng": -99.1650,
+    "actividades": ["gimnasio", "yoga", "zumba", "body combat"],
+    "contactos": []
+  },
+  {
+    "nombre": "Sport City (Sucursal CDMX)",
+    "lat": 19.4200,
+    "lng": -99.1800,
+    "actividades": ["gimnasio", "squash", "natación", "fútbol"],
+    "contactos": []
+  },
+  {
+    "nombre": "Sports World (Sucursal CDMX)",
+    "lat": 19.4250,
+    "lng": -99.1700,
+    "actividades": ["gimnasio", "alberca", "escalada", "clases grupales"],
+    "contactos": []
+  },
+  {
+    "nombre": "Energy Fitness (Sucursal CDMX)",
+    "lat": 19.4140,
+    "lng": -99.1530,
+    "actividades": ["pilates", "zumba", "HIIT"],
+    "contactos": []
+  },
+  {
+    "nombre": "Go Fitness (Sucursal CDMX)",
+    "lat": 19.4310,
+    "lng": -99.1730,
+    "actividades": ["bodyattack", "spinning", "pilates", "salsa"],
+    "contactos": []
+  },
+  {
+    "nombre": "K1 Speed Santa Fe",
+    "lat": 19.3730,
+    "lng": -99.2450,
+    "actividades": ["karting", "eventos deportivos"],
+    "contactos": []
+  },
+  {
+    "nombre": "Bbat Zona Rosa",
+    "lat": 19.4235,
+    "lng": -99.1658,
+    "actividades": ["béisbol indoor", "softball", "eventos"],
+    "contactos": []
+  },
+  {
+    "nombre": "Levita - Centro de Escalada",
+    "lat": 19.4265,
+    "lng": -99.1025,
+    "actividades": ["escalada"],
+    "contactos": []
+  },
+  {
+    "nombre": "Estadio Fray Nano",
+    "lat": 19.3960,
+    "lng": -99.0830,
+    "actividades": ["béisbol", "eventos"],
+    "contactos": []
+  },
+  {
+    "nombre": "Adamanta Bouldering",
+    "lat": 19.4268,
+    "lng": -99.0967,
+    "actividades": ["bouldering", "escalada"],
+    "contactos": []
+  }
+]

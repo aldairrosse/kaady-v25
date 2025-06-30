@@ -11,9 +11,8 @@ function Welcome() {
     const isMobile = useMediaQuery(theme.breakpoints.down("md"));
     const navigate = useNavigate();
 
-    const toHome = () => {
-        navigate("/home");
-    };
+    const toHome = () => navigate("/home");
+    const toRegister = () => navigate("/register");
 
     return (
         <div className="bg-main">
@@ -63,7 +62,11 @@ function Welcome() {
                             flexWrap={"wrap"}
                             justifyContent={isMobile ? "center" : ""}
                         >
-                            <Button size="large" variant="contained" href="/login">
+                            <Button
+                                size="large"
+                                variant="contained"
+                                onClick={toRegister}
+                            >
                                 Registrarme
                             </Button>
                             <Button size="large" onClick={toHome}>
