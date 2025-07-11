@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { forwardRef, useState } from "react";
 
-export default forwardRef(function (_, ref) {
+const AgeForm = forwardRef(function (_, ref) {
     const [sex, setSex] = useState(0);
     return (
         <Box ref={ref}>
@@ -57,3 +57,5 @@ export default forwardRef(function (_, ref) {
         </Box>
     );
 });
+
+export default AgeForm;

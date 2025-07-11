@@ -16,7 +16,7 @@ import NameForm from "@views/user/NameForm";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
-export default function () {
+export default function Register() {
     const [step, setStep] = useState(1);
     const [dir, setDir] = useState<"right" | "left">("right");
     const navigate = useNavigate();

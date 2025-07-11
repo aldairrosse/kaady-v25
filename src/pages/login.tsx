@@ -18,7 +18,7 @@ import {
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router";
 
-export default function () {
+export default function Login() {
     const { scheme } = useContext(Context);
     const [show, setShow] = useState(false);
 

@@ -9,7 +9,7 @@ import { AdvancedMarker, APIProvider, Map } from "@vis.gl/react-google-maps";
 import centers from "@config/kaady-centers.json";
 import { useNavigate } from "react-router";
 
-export default function () {
+export default function Mapa() {
     const { scheme, theme } = useContext(Context);
     const [zoom, setZoom] = useState(0);
     const navigate = useNavigate();
@@ -61,8 +61,8 @@ export default function () {
                             >
                                 <Avatar
                                     sx={{
-                                        color: scheme.onSecondaryContainer,
-                                        bgcolor: scheme.secondaryContainer,
+                                        color: scheme.onPrimary,
+                                        bgcolor: scheme.primary,
                                         border:
                                             "2px solid " +
                                             scheme.outlineVariant,
@@ -76,13 +76,14 @@ export default function () {
                                     <Card
                                         sx={{
                                             position: "absolute",
-                                            px: "6px",
-                                            py: "2px",
+                                            px: "8px",
+                                            py: "4px",
                                             bgcolor: scheme.surfaceVariant,
                                             color: scheme.onSurfaceVariant,
                                             transform:
                                                 "translate(calc(-50% + 22px), 8px)",
                                         }}
+                                        elevation={2}
                                     >
                                         <p
                                             className="title-small"
@@ -132,7 +133,8 @@ export default function () {
             >
                 <Button
                     variant="contained"
-                    sx={{ width: 48, height: 48, minWidth: 48 }}
+                    color="secondary"
+                    sx={{ width: 48, height: 48, minWidth: 48, borderRadius: 3 }}
                 >
                     <LocationOn />
                 </Button>

@@ -2,7 +2,7 @@ import Context from "@components/Context";
 import { Box, Card, Grid, Stack } from "@mui/material";
 import { useContext } from "react";
 
-export default function () {
+export default function Activities() {
     const { scheme } = useContext(Context);
     const activities = [
         "Boxeo",

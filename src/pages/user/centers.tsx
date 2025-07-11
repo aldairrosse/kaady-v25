@@ -14,7 +14,7 @@ import centers from "@config/kaady-centers.json";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
-export default function () {
+export default function Centers() {
     const [search, setSearch] = useState("");
     const [filterd, setFiltered] = useState(centers);
     const navigate = useNavigate();

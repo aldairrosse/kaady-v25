@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import { useContext, useMemo } from "react";
 
-export default function () {
+export default function Partners() {
     const { theme, scheme } = useContext(Context);
     const isTablet = useMediaQuery(theme.breakpoints.down("md"));
     const imageSize = useMemo(() => "300px", []);

@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { useContext } from "react";
 
-export default function () {
+export default function Account() {
     const { scheme } = useContext(Context);
     return (
         <Box

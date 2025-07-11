@@ -13,6 +13,7 @@ export default defineConfig({
         Pages({
             dirs: "src/pages",
             extensions: ["tsx"],
+            importMode: 'async',
         }),
         tsconfigPaths(),
     ],

@@ -1,7 +1,7 @@
 import { Bookmark } from "@mui/icons-material";
 import { Box, Icon, Stack } from "@mui/material";
 
-export default function () {
+export default function Bookings() {
     return (
         <Box sx={{ px: 3, pt: 4 }}>
             <Stack direction={"row"} gap={2}>

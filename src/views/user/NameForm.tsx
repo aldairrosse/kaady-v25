@@ -2,7 +2,7 @@ import { Badge } from "@mui/icons-material";
 import { Box, Icon, Stack, TextField } from "@mui/material";
 import { forwardRef } from "react";
 
-export default forwardRef(function (_, ref) {
+const NameForm = forwardRef(function (_, ref) {
     return (
         <Box ref={ref}>
             <h2 className="title-medium">
@@ -25,3 +25,5 @@ export default forwardRef(function (_, ref) {
         </Box>
     );
 });
+
+export default NameForm;

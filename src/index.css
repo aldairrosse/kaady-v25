@@ -23,6 +23,10 @@ h6 {
     -ms-user-select: none;
 }
 
+.MuiTabs-scrollButtons.Mui-disabled {
+  opacity: 0.4 !important;
+}
+
 @media (prefers-color-scheme: dark) {
     .bg-main {
         background: linear-gradient(45deg, #0f1b2c, #11284b, #1363a9);

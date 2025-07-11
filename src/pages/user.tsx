@@ -25,7 +25,7 @@ import {
 import { useContext, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router";
 
-export default function () {
+export default function User() {
     const [open, setOpen] = useState(false);
     const { scheme } = useContext(Context);
     const navigate = useNavigate();

@@ -29,7 +29,7 @@ export default function Home() {
 
     useEffect(() => {
         navigate(ruta);
-    }, [ruta]);
+    }, [ruta, navigate]);
 
     useEffect(() => {
         const cleaned = pathname.replace(/\/+$/, "");

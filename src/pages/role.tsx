@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { useContext, useState } from "react";
 
-export default function () {
+export default function Role() {
     const { scheme } = useContext(Context);
     const [role, setRole] = useState(0);
 

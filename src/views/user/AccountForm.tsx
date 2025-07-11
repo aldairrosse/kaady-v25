@@ -2,7 +2,7 @@ import { Email, Lock } from "@mui/icons-material";
 import { Box, Icon, TextField } from "@mui/material";
 import { forwardRef } from "react";
 
-export default forwardRef((_, ref) => {
+const AccountForm = forwardRef((_, ref) => {
     return (
         <Box ref={ref}>
             <h2 className="title-medium">
@@ -36,3 +36,5 @@ export default forwardRef((_, ref) => {
         </Box>
     );
 });
+
+export default AccountForm;
