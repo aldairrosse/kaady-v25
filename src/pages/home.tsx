@@ -19,7 +19,7 @@ import { Outlet, useLocation, useNavigate } from "react-router";
 
 export default function Home() {
     const navigate = useNavigate();
-    const [ruta, setRuta] = useState("/home");
+    const [ruta, setRuta] = useState(0);
     const { pathname } = useLocation();
     const { theme } = useContext(Context);
     const [anchor, setAnchor] = useState<HTMLButtonElement>();
@@ -28,12 +28,25 @@ export default function Home() {
     const isLarge = useMediaQuery(theme.breakpoints.up("sm"));
 
     useEffect(() => {
-        navigate(ruta);
-    }, [ruta, navigate]);
-
-    useEffect(() => {
         const cleaned = pathname.replace(/\/+$/, "");
-        setRuta(cleaned);
+        switch (cleaned) {
+            case "/home": {
+                setRuta(0);
+                break;
+            }
+            case "/home/memberships": {
+                setRuta(1);
+                break;
+            }
+            case "/home/partners": {
+                setRuta(2);
+                break;
+            }
+            default: {
+                setRuta(0);
+                break;
+            }
+        }
     }, [pathname]);
 
     const sx: SxProps = {
@@ -41,6 +54,9 @@ export default function Home() {
         padding: "8px 12px",
     };
 
+    const toHome = () => navigate("/home");
+    const toMemberships = () => navigate("/home/memberships");
+    const toPartners = () => navigate("/home/partners");
     const toRegister = () => navigate("/register");
     const close = () => setAnchor(undefined);
 
@@ -52,26 +68,25 @@ export default function Home() {
                     <Stack flexGrow={1} direction={"row"} gap={4}>
                         <Tabs
                             value={ruta}
-                            onChange={(_e, v) => setRuta(v)}
                             aria-label="navbar"
                             component="nav"
                             sx={{ minHeight: 36 }}
                         >
                             <Tab
                                 label="Inicio"
-                                value="/home"
+                                onClick={toHome}
                                 disableRipple
                                 sx={sx}
                             />
                             <Tab
                                 label="Membresías"
-                                value="/home/memberships"
+                                onClick={toMemberships}
                                 disableRipple
                                 sx={sx}
                             />
                             <Tab
                                 label="Socios"
-                                value="/home/partners"
+                                onClick={toPartners}
                                 disableRipple
                                 sx={sx}
                             />
@@ -112,7 +127,7 @@ export default function Home() {
                     >
                         <MenuItem
                             onClick={() => {
-                                setRuta("/home");
+                                toHome();
                                 close();
                             }}
                         >
@@ -120,7 +135,7 @@ export default function Home() {
                         </MenuItem>
                         <MenuItem
                             onClick={() => {
-                                setRuta("/home/memberships");
+                                toMemberships();
                                 close();
                             }}
                         >
@@ -128,7 +143,7 @@ export default function Home() {
                         </MenuItem>
                         <MenuItem
                             onClick={() => {
-                                setRuta("/home/partners");
+                                toPartners();
                                 close();
                             }}
                         >
