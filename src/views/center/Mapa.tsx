@@ -11,7 +11,7 @@ import { useNavigate } from "react-router";
 
 export default function Mapa() {
     const { scheme, theme } = useContext(Context);
-    const [zoom, setZoom] = useState(0);
+    const [zoom, setZoom] = useState(12);
     const navigate = useNavigate();
 
     const activities = [
@@ -51,6 +51,7 @@ export default function Mapa() {
                             theme.palette.mode == "dark" ? "DARK" : "LIGHT"
                         }
                         onZoomChanged={(e) => setZoom(e.map.getZoom() || 0)}
+                        onIdle={(e) => setZoom(e.map.getZoom() || 0)}
                     >
                         {centers.map((item, i) => (
                             <AdvancedMarker
@@ -134,7 +135,12 @@ export default function Mapa() {
                 <Button
                     variant="contained"
                     color="secondary"
-                    sx={{ width: 48, height: 48, minWidth: 48, borderRadius: 3 }}
+                    sx={{
+                        width: 48,
+                        height: 48,
+                        minWidth: 48,
+                        borderRadius: 3,
+                    }}
                 >
                     <LocationOn />
                 </Button>

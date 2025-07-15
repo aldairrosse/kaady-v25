@@ -13,6 +13,7 @@ export default function Activities() {
                 {center.actividades.map((v) => (
                     <Card
                         elevation={0}
+                        key={v}
                         sx={{ bgcolor: "Background", py: 2, px: 2 }}
                     >
                         <p className="title-large">

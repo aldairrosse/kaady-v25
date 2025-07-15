@@ -57,61 +57,62 @@ export default function Login() {
                 sx={{
                     width: "100%",
                     maxWidth: "600px",
-                    padding: 2,
-                    borderRadius: 4,
+                    padding: 4,
+                    borderRadius: 6,
                 }}
                 border={"1px solid"}
                 borderColor={scheme.outlineVariant}
             >
                 <Stack
                     marginBottom={4}
-                    marginLeft={7}
-                    marginTop={2}
                     alignItems={"start"}
                 >
-                    <Logo type="horizontal" height="28px" />
+                    <Logo type="horizontal" height="36px" />
                 </Stack>
-                <h1 className="headline-medium" style={{ marginLeft: 52 }}>
-                    Inicia tu sesión
-                </h1>
-                <p
-                    className="body-medium opacity-70"
-                    style={{ marginTop: 4, marginLeft: 52 }}
-                >
+                <h1 className="headline-medium">Inicia tu sesión</h1>
+                <p className="body-medium opacity-70" style={{ marginTop: 4 }}>
                     Tus credenciales se guardan en este dispositivo
                 </p>
                 <Stack gap={2} marginTop={2}>
                     <Box sx={{ display: "flex", alignItems: "center" }}>
-                        <AccountCircleOutlined
-                            fontSize="large"
-                            className="opacity-80"
-                            sx={{ mr: 2 }}
-                        />
                         <TextField
                             fullWidth
-                            label="Usuario"
+                            placeholder="Usuario"
                             type="email"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
+                            slotProps={{
+                                input: {
+                                    sx: { borderRadius: 2 },
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <AccountCircleOutlined
+                                                sx={{ mr: 1 }}
+                                            />
+                                        </InputAdornment>
+                                    ),
+                                },
+                            }}
                         />
                     </Box>
                     <Box sx={{ display: "flex", alignItems: "center" }}>
-                        <LockOutline
-                            fontSize="large"
-                            className="opacity-80"
-                            sx={{ mr: 2 }}
-                        />
                         <TextField
                             fullWidth
-                            label="Contraseña"
+                            placeholder="Contraseña"
                             type={show ? "text" : "password"}
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                             slotProps={{
                                 input: {
+                                    sx: { borderRadius: 2 },
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <LockOutline sx={{ mr: 1 }} />
+                                        </InputAdornment>
+                                    ),
                                     endAdornment: passEnd,
                                 },
                             }}
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
                         />
                     </Box>
                 </Stack>

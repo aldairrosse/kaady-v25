@@ -11,9 +11,12 @@ import {
     Stack,
 } from "@mui/material";
 import { useContext } from "react";
+import { useNavigate } from "react-router";
 
 export default function Account() {
     const { scheme } = useContext(Context);
+    const navigate = useNavigate();
+
     return (
         <Box
             sx={{
@@ -90,6 +93,7 @@ export default function Account() {
                     sx={{ px: 4, mt: 4 }}
                     color="error"
                     variant="outlined"
+                    onClick={() => navigate("/login")}
                 >
                     Cerrar sesión
                 </Button>
