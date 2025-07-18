@@ -55,7 +55,7 @@ const Schedule = function () {
                 </Icon>
                 <h2 className="title-large">Servicios del centro</h2>
             </Stack>
-            <Stack direction={"row"} gap={2} mt={2}>
+            <Stack direction={"row"} gap={2} mt={2} flexWrap={'wrap'}>
                 <Card variant="outlined" sx={{ px: 2, py: 2 }}>
                     <p className="body-medium">Estacionamiento</p>
                 </Card>

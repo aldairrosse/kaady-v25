@@ -52,7 +52,7 @@ export default function Centers() {
                     <Card
                         key={i}
                         elevation={0}
-                        onClick={() => navigate(`/center/${i}`)}
+                        onClick={() => navigate(`/user/center/${i}`)}
                     >
                         <ListItemButton sx={{ py: 2, borderRadius: 2 }}>
                             <Stack direction={"row"} gap={2} width={"100%"}>

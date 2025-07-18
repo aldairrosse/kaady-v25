@@ -58,7 +58,7 @@ export default function Mapa() {
                                 key={i}
                                 title={item.nombre}
                                 position={{ lat: item.lat, lng: item.lng }}
-                                onClick={() => navigate(`/center/${i}`)}
+                                onClick={() => navigate(`/user/center/${i}`)}
                             >
                                 <Avatar
                                     sx={{
