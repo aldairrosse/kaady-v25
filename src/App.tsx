@@ -68,7 +68,7 @@ function App() {
             scheme,
             theme,
         }),
-        [theme, scheme, settings]
+        [theme, scheme, settings, update]
     );
 
     return (
