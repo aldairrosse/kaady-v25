@@ -93,7 +93,7 @@ export default function Account() {
                     sx={{ px: 4, mt: 4 }}
                     color="error"
                     variant="outlined"
-                    onClick={() => navigate("/login")}
+                    onClick={() => navigate("/login", { replace: true })}
                 >
                     Cerrar sesión
                 </Button>

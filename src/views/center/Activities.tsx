@@ -14,7 +14,13 @@ export default function Activities() {
                     <Card
                         elevation={0}
                         key={v}
-                        sx={{ bgcolor: "Background", py: 2, px: 2 }}
+                        sx={{
+                            bgcolor: "Background",
+                            py: 2,
+                            px: 2,
+                            border: "1px solid",
+                            borderColor: (t) => t.palette.background.paper,
+                        }}
                     >
                         <p className="title-large">
                             {v.charAt(0).toUpperCase() + v.slice(1)}

@@ -46,8 +46,8 @@ export default function Id() {
     }
 
     return (
-        <Root sx={{ pt: 2, pb: 6, px: 0, paddingX: 0, overflowY: 'auto' }}>
-            <IconButton onClick={() => navigate(-1)} sx={{ mb: 3, ml: 2 }}>
+        <Root sx={{ pt: 2, pb: 6, px: 0, paddingX: 0, }}>
+            <IconButton onClick={() => navigate(-1)} sx={{ mb: 3, ml: 2 }} title="Atrás">
                 <ArrowBack />
             </IconButton>
             <Stack direction={"row"} alignItems="center" gap={2} mx={3}>

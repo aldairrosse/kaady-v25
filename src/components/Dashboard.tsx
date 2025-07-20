@@ -71,6 +71,12 @@ export default function Dashboard({
         return item?.titleMobile ?? false;
     };
 
+    const isOptionRoute = () => {
+        const cleaned = pathname.replace(/\/+$/, "");
+        const item = options.find((o) => o.path == cleaned);
+        return !!item;
+    };
+
     return (
         <Stack
             sx={{
@@ -85,6 +91,7 @@ export default function Dashboard({
                 sx={{
                     zIndex: (t) =>
                         isTablet ? t.zIndex.appBar : t.zIndex.drawer + 1,
+                    display: !isOptionRoute() ? "none" : "",
                 }}
                 position="sticky"
                 component={"nav"}
@@ -115,7 +122,7 @@ export default function Dashboard({
                 sx={{
                     height: "100%",
                     width: "100%",
-                    overflow: "hidden",
+                    overflow: isOptionRoute() ? "hidden" : "auto",
                     position: "relative",
                 }}
             >
@@ -127,6 +134,7 @@ export default function Dashboard({
                         boxSizing: "border-box",
                         flexShrink: 0,
                         position: isTablet ? "" : "relative",
+                        display: !isOptionRoute() ? "none" : "",
                         "& .MuiDrawer-paper": {
                             position: isTablet ? "" : "relative",
                             bgcolor: scheme.surfaceContainerLowest,
