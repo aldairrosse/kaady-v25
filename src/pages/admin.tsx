@@ -14,23 +14,23 @@ export default function User() {
                 {
                     title: "Resumen",
                     icon: <Equalizer />,
-                    path: "/user",
+                    path: "/admin",
                 },
                 {
                     title: "Centros",
                     icon: <FitnessCenter />,
-                    path: "/user/centers",
+                    path: "/admin/centers",
                 },
                 {
                     title: "Actividades",
                     icon: <Segment />,
-                    path: "/user/activities",
+                    path: "/admin/activities",
                     titleMobile: true,
                 },
                 {
                     title: "Cuenta",
                     icon: <AccountCircle />,
-                    path: "/user/account",
+                    path: "/admin/account",
                     titleMobile: true,
                 },
             ]}

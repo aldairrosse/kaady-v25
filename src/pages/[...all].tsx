@@ -2,7 +2,7 @@ import Logo from "@components/Logo";
 import Rights from "@components/Rights";
 import Root from "@components/Root";
 import { CloudOffOutlined } from "@mui/icons-material";
-import { Card, Icon, Stack } from "@mui/material";
+import { Card, Stack } from "@mui/material";
 import { useLocation } from "react-router";
 
 export default function All() {
@@ -26,12 +26,11 @@ export default function All() {
                     width: "max-content",
                     py: 1,
                     px: 2,
+                    mt: 1,
                 }}
             >
                 <Stack direction={"row"} alignItems={"center"} gap={2}>
-                    <Icon color="primary">
-                        <CloudOffOutlined />
-                    </Icon>
+                    <CloudOffOutlined color="primary" />
                     <p className="body-large opacity-80">{location.pathname}</p>
                 </Stack>
             </Card>
