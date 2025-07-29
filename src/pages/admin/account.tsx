@@ -1,3 +1,5 @@
+import ProfileInfo from "@views/user/ProfileInfo";
+
 export default function Account() {
-    return <p>Cuenta</p>;
+    return <ProfileInfo />;
 }

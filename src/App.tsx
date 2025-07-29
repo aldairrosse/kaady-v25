@@ -16,13 +16,10 @@ import material from "@config/material-theme.json";
 import kaady from "@config/kaady-settings.json";
 import { ScrollToTop } from "@components/ScrollToTop";
 import Splash from "@components/Splash";
+import { APIProvider } from "@vis.gl/react-google-maps";
 
 function Routes() {
-    return (
-        <Suspense fallback={<Splash />}>
-            {useRoutes(routes)}
-        </Suspense>
-    );
+    return <Suspense fallback={<Splash />}>{useRoutes(routes)}</Suspense>;
 }
 
 function App() {
@@ -73,13 +70,15 @@ function App() {
 
     return (
         <Context.Provider value={value}>
-            <ThemeProvider theme={value.theme}>
-                <CssBaseline />
-                <BrowserRouter>
-                    <ScrollToTop />
-                    <Routes />
-                </BrowserRouter>
-            </ThemeProvider>
+            <APIProvider apiKey={import.meta.env.VITE_GOOGLE_API_KEY}>
+                <ThemeProvider theme={value.theme}>
+                    <CssBaseline />
+                    <BrowserRouter>
+                        <ScrollToTop />
+                        <Routes />
+                    </BrowserRouter>
+                </ThemeProvider>
+            </APIProvider>
         </Context.Provider>
     );
 }

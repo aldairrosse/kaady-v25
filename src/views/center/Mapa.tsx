@@ -6,7 +6,6 @@ import { useCallback, useContext, useState } from "react";
 
 import {
     AdvancedMarker,
-    APIProvider,
     Map,
     MapCameraChangedEvent,
 } from "@vis.gl/react-google-maps";
@@ -71,96 +70,92 @@ export default function Mapa() {
                     zIndex: 0,
                 }}
             >
-                <APIProvider apiKey={import.meta.env.VITE_GOOGLE_API_KEY}>
-                    <Map
-                        id="main-map"
-                        style={{ width: "100%", height: "100%" }}
-                        defaultCenter={{ lat: 19.4320166, lng: -99.1342471 }}
-                        defaultZoom={12}
-                        gestureHandling={"greedy"}
-                        disableDefaultUI={true}
-                        mapId={import.meta.env.VITE_GOOGLE_MAP_ID}
-                        mapTypeId={"roadmap"}
-                        colorScheme={
-                            theme.palette.mode == "dark" ? "DARK" : "LIGHT"
-                        }
-                        center={center}
-                        zoom={zoom}
-                        clickableIcons={false}
-                        reuseMaps
-                        onCameraChanged={handleCamera}
-                    >
-                        {centers.map((item, i) => (
-                            <AdvancedMarker
-                                key={i}
-                                title={item.nombre}
-                                position={item}
-                                onClick={() => navigate(`/user/center/${i}`)}
-                            >
-                                <Avatar
-                                    sx={{
-                                        color: scheme.onPrimary,
-                                        bgcolor: scheme.primary,
-                                        border:
-                                            "2px solid " +
-                                            scheme.outlineVariant,
-                                    }}
-                                >
-                                    <Icon>
-                                        <FitnessCenter />
-                                    </Icon>
-                                </Avatar>
-                                {zoom >= 14 && (
-                                    <Card
-                                        sx={{
-                                            position: "absolute",
-                                            px: "8px",
-                                            py: "4px",
-                                            bgcolor: scheme.surfaceVariant,
-                                            color: scheme.onSurfaceVariant,
-                                            pointerEvents: "none",
-                                            transform:
-                                                "translate(calc(-50% + 22px), 8px)",
-                                        }}
-                                        elevation={3}
-                                    >
-                                        <p
-                                            className="title-small"
-                                            style={{
-                                                whiteSpace: "nowrap",
-                                                overflow: "hidden",
-                                                textOverflow: "ellipsis",
-                                                maxWidth: "120px",
-                                                display: "inline-block",
-                                                marginBottom: "-3px",
-                                            }}
-                                        >
-                                            {item.nombre}
-                                        </p>
-                                    </Card>
-                                )}
-                            </AdvancedMarker>
-                        ))}
+                <Map
+                    id="main-map"
+                    style={{ width: "100%", height: "100%" }}
+                    defaultCenter={{ lat: 19.4320166, lng: -99.1342471 }}
+                    defaultZoom={12}
+                    gestureHandling={"greedy"}
+                    disableDefaultUI={true}
+                    mapId={import.meta.env.VITE_GOOGLE_MAP_ID}
+                    mapTypeId={"roadmap"}
+                    colorScheme={
+                        theme.palette.mode == "dark" ? "DARK" : "LIGHT"
+                    }
+                    center={center}
+                    zoom={zoom}
+                    clickableIcons={false}
+                    reuseMaps
+                    onCameraChanged={handleCamera}
+                >
+                    {centers.map((item, i) => (
                         <AdvancedMarker
-                            title="Mi ubicación"
-                            position={located}
-                            onClick={requestLocation}
+                            key={i}
+                            title={item.nombre}
+                            position={item}
+                            onClick={() => navigate(`/user/center/${i}`)}
                         >
                             <Avatar
                                 sx={{
-                                    width: 32,
-                                    height: 32,
-                                    bgcolor: theme.palette.info.main,
+                                    color: scheme.onPrimary,
+                                    bgcolor: scheme.primary,
                                     border:
                                         "2px solid " + scheme.outlineVariant,
-                                    display: "flex",
-                                    alignContent: "center",
-                                    justifyContent: "center",
                                 }}
-                            />
+                            >
+                                <Icon>
+                                    <FitnessCenter />
+                                </Icon>
+                            </Avatar>
+                            {zoom >= 14 && (
+                                <Card
+                                    sx={{
+                                        position: "absolute",
+                                        px: "8px",
+                                        py: "4px",
+                                        bgcolor: scheme.surfaceVariant,
+                                        color: scheme.onSurfaceVariant,
+                                        pointerEvents: "none",
+                                        transform:
+                                            "translate(calc(-50% + 22px), 8px)",
+                                    }}
+                                    elevation={3}
+                                >
+                                    <p
+                                        className="title-small"
+                                        style={{
+                                            whiteSpace: "nowrap",
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
+                                            maxWidth: "120px",
+                                            display: "inline-block",
+                                            marginBottom: "-3px",
+                                        }}
+                                    >
+                                        {item.nombre}
+                                    </p>
+                                </Card>
+                            )}
                         </AdvancedMarker>
-                    </Map>
-                </APIProvider>
+                    ))}
+                    <AdvancedMarker
+                        title="Mi ubicación"
+                        position={located}
+                        onClick={requestLocation}
+                    >
+                        <Avatar
+                            sx={{
+                                width: 32,
+                                height: 32,
+                                bgcolor: theme.palette.info.main,
+                                border: "2px solid " + scheme.outlineVariant,
+                                display: "flex",
+                                alignContent: "center",
+                                justifyContent: "center",
+                            }}
+                        />
+                    </AdvancedMarker>
+                </Map>
             </div>
 
             <Stack

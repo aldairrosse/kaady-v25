@@ -7,7 +7,7 @@ import {
     Segment,
 } from "@mui/icons-material";
 
-export default function User() {
+export default function Admin() {
     return (
         <Dashboard
             options={[
