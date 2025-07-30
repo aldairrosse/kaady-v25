@@ -4,6 +4,7 @@ import {
     AccountCircle,
     Inbox,
     Outbox,
+    Send,
     VerifiedUser,
 } from "@mui/icons-material";
 import { useEffect } from "react";
@@ -15,7 +16,7 @@ export default function Mail() {
     useEffect(() => {
         navigate("/mail/inbox");
     }, []);
-    
+
     return (
         <Dashboard
             options={[
@@ -30,6 +31,11 @@ export default function Mail() {
                     icon: <Outbox />,
                     path: "/mail/outbox",
                     titleMobile: true,
+                },
+                {
+                    title: "Enviar",
+                    icon: <Send />,
+                    path: "/mail/send",
                     divider: true,
                 },
                 {
