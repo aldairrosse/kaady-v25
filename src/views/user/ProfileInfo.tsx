@@ -95,7 +95,11 @@ export default function ProfileInfo() {
                                     {user?.birthday
                                         ? new Date(
                                               user.birthday
-                                          ).toLocaleDateString()
+                                          ).toLocaleDateString("es", {
+                                              day: "2-digit",
+                                              month: "long",
+                                              year: "numeric",
+                                          })
                                         : "No registrado"}
                                 </span>
                             }

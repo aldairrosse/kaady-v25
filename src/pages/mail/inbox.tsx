@@ -1,6 +1,11 @@
-import { Email, StarBorder, Sync } from "@mui/icons-material";
+import { useApiMail } from "@api/mail";
+import Context from "@components/Context";
+import { Mail } from "@models/Mail";
+import { StarBorder, Sync } from "@mui/icons-material";
 import {
     Box,
+    Button,
+    CircularProgress,
     IconButton,
     List,
     ListItem,
@@ -8,15 +13,45 @@ import {
     ListItemText,
     Stack,
 } from "@mui/material";
+import { getDateShort, parseEmailInfo } from "@utils/format";
+import { useContext, useEffect, useState } from "react";
 
 export default function Inbox() {
-    const mails = [1, 2, 3];
+    const { listarEmail } = useApiMail();
+    const [mails, setMails] = useState<Mail[]>([]);
+    const [loading, setLoading] = useState(false);
+    const { scheme } = useContext(Context);
+
+    const load = async () => {
+        setLoading(true);
+        try {
+            const res = await listarEmail("recibidos");
+            setMails(res);
+        } catch (error) {
+            console.error(error);
+        }
+        setLoading(false);
+    };
+
+    useEffect(() => {
+        load();
+    }, []);
+
+    const getName = (from: string) => {
+        const info = parseEmailInfo(from);
+        if (!info) return "Desconocido";
+        if (info.name) return info.name;
+        return info.email;
+    };
+
     return (
         <Box
             width={"100%"}
             height={"100%"}
             sx={{
-                p: 4,
+                px: 4,
+                pt: 2,
+                pb: 10,
                 overflowY: "auto",
                 display: "flex",
                 flexDirection: "column",
@@ -27,19 +62,34 @@ export default function Inbox() {
                 justifyContent={"end"}
                 alignItems={"center"}
                 gap={4}
+                pb={2}
             >
-                <IconButton color="primary">
-                    <Email />
-                </IconButton>
-                <IconButton color="primary">
+                <IconButton>
                     <StarBorder />
                 </IconButton>
-                <IconButton color="primary">
-                    <Sync />
-                </IconButton>
+                <Button
+                    color="inherit"
+                    onClick={load}
+                    disabled={loading}
+                    startIcon={<Sync />}
+                >
+                    Actualizar
+                </Button>
             </Stack>
+            {loading && (
+                <Stack alignItems={"center"} py={2}>
+                    <CircularProgress color="primary" variant="indeterminate" />
+                </Stack>
+            )}
+            {!loading && !mails.length && (
+                <Stack py={2}>
+                    <p className="body-large opacity-80">
+                        No se encontraron correos en tu bandeja
+                    </p>
+                </Stack>
+            )}
             <List disablePadding>
-                {mails.map((i) => (
+                {mails.map((item, i) => (
                     <ListItem key={i} disablePadding>
                         <ListItemButton sx={{ borderRadius: 4, gap: 2 }}>
                             <h2
@@ -52,17 +102,36 @@ export default function Inbox() {
                                     whiteSpace: "nowrap",
                                 }}
                             >
-                                Google Play Store
+                                {getName(item.from)}
                             </h2>
                             <ListItemText
                                 primary={
-                                    <p className="body-large">
-                                        Título del correo
+                                    <p
+                                        className="body-large"
+                                        style={{
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
+                                            whiteSpace: "nowrap",
+                                        }}
+                                    >
+                                        {item.subject}
                                     </p>
                                 }
-                                secondary={"Este es el contenido del correo"}
+                                secondary={
+                                    <span className="body-medium opacity-80">
+                                        {item.preview}...
+                                    </span>
+                                }
                             />
-                            <p className="body-medium">10 abr</p>
+                            <p
+                                className="body-medium"
+                                style={{
+                                    whiteSpace: "nowrap",
+                                    color: scheme.primary,
+                                }}
+                            >
+                                {getDateShort(item.date)}
+                            </p>
                         </ListItemButton>
                     </ListItem>
                 ))}

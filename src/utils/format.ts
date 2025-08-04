@@ -30,3 +30,46 @@ export function parseDateInput(
 
     return date;
 }
+
+export function getDateShort(date: string) {
+    const d = new Date(date);
+    const now = new Date();
+
+    const sameDay = d.toDateString() === now.toDateString();
+    const sameYear = d.getFullYear() === now.getFullYear();
+
+    if (sameDay) {
+        return d
+            .toLocaleString("es-MX", {
+                hour: "numeric",
+                minute: "2-digit",
+                hour12: true,
+            })
+            .toLowerCase();
+    }
+    if (sameYear) {
+        return d.toLocaleString("es-MX", {
+            day: "numeric",
+            month: "short",
+        });
+    }
+    return d.toLocaleString("es-MX", {
+        month: "short",
+        year: "numeric",
+    });
+}
+
+export function parseEmailInfo(
+    input: string
+): { name?: string; email: string } | null {
+    const regex =
+        /^(?:\s*"?([^"<]+?)"?\s*)?<([\w.-]+@[\w.-]+\.\w+)>$|^([\w.-]+@[\w.-]+\.\w+)$/;
+    const match = input.match(regex);
+
+    if (!match) return null;
+
+    const name = match[1] || undefined;
+    const email = match[2] || match[3];
+
+    return { name, email };
+}
