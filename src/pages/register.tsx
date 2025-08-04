@@ -1,4 +1,9 @@
+import { useApiUser } from "@api/user";
+import Loading from "@components/Loading";
 import Logo from "@components/Logo";
+import SimpleDialog from "@components/SimpleDialog";
+import { useRegister } from "@hooks/register";
+import { ApiError } from "@hooks/request";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import {
     AppBar,
@@ -20,6 +25,52 @@ export default function Register() {
     const [step, setStep] = useState(1);
     const [dir, setDir] = useState<"right" | "left">("right");
     const navigate = useNavigate();
+    const register = useRegister();
+    const { registerUser } = useApiUser();
+    const [loading, setLoading] = useState({ show: false, message: "" });
+    const [alert, setAlert] = useState({
+        show: false,
+        message: "",
+        title: "",
+        text: "OK",
+    });
+
+    const showAlert = (title: string, message: string, text: string) => {
+        setAlert({
+            show: true,
+            title,
+            message,
+            text,
+        });
+    };
+
+    const handleRegister = async () => {
+        setLoading({
+            show: true,
+            message: "Registrando tu cuenta...",
+        });
+        try {
+            const msg = await registerUser(register.data);
+            showAlert("Completado", msg, "Iniciar sesión");
+        } catch (error) {
+            const err = error as ApiError;
+            showAlert(err.message, err.error as string, "OK");
+        }
+        setLoading({
+            show: false,
+            message: "",
+        });
+    };
+
+    const handleComplete = () => {
+        setAlert((v) => ({
+            ...v,
+            show: false,
+        }));
+        if (alert.text.includes("Iniciar")) {
+            navigate("/login", { replace: true });
+        }
+    };
 
     return (
         <Stack>
@@ -97,7 +148,12 @@ export default function Register() {
                         </Button>
                     )}
                     {step == 3 && (
-                        <Button size="large" variant="contained">
+                        <Button
+                            size="large"
+                            variant="contained"
+                            disabled={!register.isValid()}
+                            onClick={handleRegister}
+                        >
                             Registrame
                         </Button>
                     )}
@@ -111,6 +167,15 @@ export default function Register() {
                     </Button>
                 </Stack>
             </Container>
+
+            <Loading show={loading.show} message={loading.message} />
+            <SimpleDialog
+                show={alert.show}
+                title={alert.title}
+                message={alert.message}
+                okText={alert.text}
+                onClose={handleComplete}
+            />
         </Stack>
     );
 }

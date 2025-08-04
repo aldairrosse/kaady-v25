@@ -1,21 +1,38 @@
 import Context from "@components/Context";
-import { Cake, Email, Logout, Wc } from "@mui/icons-material";
+import { useSession } from "@hooks/session";
+import { Cake, Email, Logout, Sync, Wc } from "@mui/icons-material";
 import {
     Avatar,
     Box,
     Button,
     List,
     ListItem,
+    ListItemButton,
     ListItemIcon,
     ListItemText,
     Stack,
 } from "@mui/material";
+import { getCurrentRole } from "@utils/user";
 import { useContext } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 export default function ProfileInfo() {
     const { scheme } = useContext(Context);
     const navigate = useNavigate();
+    const location = useLocation();
+    const user = useSession((state) => state.user);
+    const name = useSession((state) => state.name());
+    const logout = useSession((state) => state.logout);
+    const handleLogout = () => {
+        logout();
+        navigate("/login", { replace: true });
+    };
+
+    const sexo = {
+        D: "Desconocido",
+        H: "Hombre",
+        M: "Mujer",
+    };
 
     return (
         <Box
@@ -40,9 +57,11 @@ export default function ProfileInfo() {
                         borderColor: scheme.outlineVariant,
                     }}
                 >
-                    E
+                    <h1 className="headline-large">
+                        {user?.name.charAt(0) || "U"}
+                    </h1>
                 </Avatar>
-                <h1 className="headline-medium">Eduardo Medina</h1>
+                <h1 className="headline-medium">{name}</h1>
                 <List sx={{ mt: 4, width: "100%" }}>
                     <ListItem>
                         <ListItemIcon>
@@ -56,7 +75,7 @@ export default function ProfileInfo() {
                             }
                             secondary={
                                 <span className="body-large">
-                                    eduardo@kaadysport.com
+                                    {user?.email || "No registrado"}
                                 </span>
                             }
                         />
@@ -72,7 +91,13 @@ export default function ProfileInfo() {
                                 </h2>
                             }
                             secondary={
-                                <span className="body-large">01/01/2000</span>
+                                <span className="body-large">
+                                    {user?.birthday
+                                        ? new Date(
+                                              user.birthday
+                                          ).toLocaleDateString()
+                                        : "No registrado"}
+                                </span>
                             }
                         />
                     </ListItem>
@@ -83,17 +108,46 @@ export default function ProfileInfo() {
                         <ListItemText
                             primary={<h2 className="title-medium">Sexo</h2>}
                             secondary={
-                                <span className="body-large">Hombre</span>
+                                <span className="body-large">
+                                    {sexo[user?.genre || "D"]}
+                                </span>
                             }
                         />
                     </ListItem>
+                    {(user?.role.length || 1) > 1 && (
+                        <ListItem disablePadding>
+                            <ListItemButton
+                                onClick={() => navigate("/role")}
+                                sx={{ borderRadius: 4 }}
+                            >
+                                <ListItemIcon>
+                                    <Sync />
+                                </ListItemIcon>
+                                <ListItemText
+                                    primary={
+                                        <h2 className="title-medium">
+                                            Cambiar role
+                                        </h2>
+                                    }
+                                    secondary={
+                                        <span className="body-large">
+                                            {getCurrentRole(
+                                                location.pathname,
+                                                user?.role
+                                            )}
+                                        </span>
+                                    }
+                                />
+                            </ListItemButton>
+                        </ListItem>
+                    )}
                 </List>
                 <Button
                     startIcon={<Logout />}
                     sx={{ px: 4, mt: 4 }}
                     color="error"
                     variant="outlined"
-                    onClick={() => navigate("/login", { replace: true })}
+                    onClick={handleLogout}
                 >
                     Cerrar sesión
                 </Button>

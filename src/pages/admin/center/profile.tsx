@@ -121,6 +121,7 @@ export default function Nuevo() {
                         <TextField label="Correo electrónico" fullWidth />
                         <TextField label="Teléfono" fullWidth />
                     </Stack>
+                    <TextField label="Contraseña" sx={{ mt: 2 }} />
                 </Stack>
             </Stack>
             <Divider />

@@ -1,7 +1,7 @@
 import { Button, Stack, SxProps } from "@mui/material";
 import { useRef } from "react";
 
-export default function ({
+export default function ChipList({
     sx,
     chips,
     onClick,

@@ -1,5 +1,10 @@
+import { useApiUser } from "@api/user";
 import Context from "@components/Context";
+import Loading from "@components/Loading";
 import Logo from "@components/Logo";
+import SimpleDialog from "@components/SimpleDialog";
+import { ApiError } from "@hooks/request";
+import { useSession } from "@hooks/session";
 import {
     AccountCircleOutlined,
     LockOutline,
@@ -15,16 +20,28 @@ import {
     Stack,
     TextField,
 } from "@mui/material";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
 export default function Login() {
+    const { loginUser, userProfile } = useApiUser();
     const { scheme } = useContext(Context);
     const [show, setShow] = useState(false);
 
-    const [password, setPassword] = useState("");
-    const [username, setUsername] = useState("");
+    const [data, setData] = useState({ user: "", pass: "" });
+    const [loading, setLoading] = useState({ show: false, message: "" });
+    const [alert, setAlert] = useState({
+        show: false,
+        message: "",
+        title: "",
+        icon: "",
+    });
+    const session = useSession();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        setTimeout(() => loadProfile(!!session.token), 1000);
+    }, [session.token]);
 
     const passEnd = (
         <InputAdornment position="end">
@@ -38,12 +55,76 @@ export default function Login() {
         </InputAdornment>
     );
 
-    const login = () => {
-        if (username === "admin" && password === "admin") {
-            navigate("/user");
-        } else {
-            alert("Usuario o contraseña incorrectos");
+    const showAlert = (title: string, message: string, icon: string = "") => {
+        setAlert({
+            show: true,
+            title,
+            message,
+            icon,
+        });
+    };
+
+    const login = async () => {
+        if (!data.pass || !data.user) {
+            showAlert(
+                "Faltan datos",
+                "Debe ingresar su usuario y contraseña para iniciar",
+                "account_circle"
+            );
+            return;
         }
+        setLoading({
+            show: true,
+            message: "Iniciando sesión...",
+        });
+        try {
+            const res = await loginUser(data.user, data.pass);
+            session.setToken(res.token);
+            setLoading({
+                show: true,
+                message: `Bienvenido ${res.data.name.trim()}, buscando perfil...`,
+            });
+        } catch (error) {
+            setLoading({
+                show: false,
+                message: "",
+            });
+            const err = error as ApiError;
+            showAlert(err.message, err.error as string, "error");
+        }
+    };
+
+    const updateForm = (d: { user?: string; pass?: string }) => {
+        setData((v) => {
+            return {
+                user: d.user ?? v.user,
+                pass: d.pass ?? v.pass,
+            };
+        });
+    };
+
+    const loadProfile = async (hasToken: boolean) => {
+        try {
+            if (!hasToken) throw new Error("Sin token");
+            const user = await userProfile();
+            session.setUser(user);
+            if (user.role.length > 1) {
+                navigate("/role");
+            } else {
+                navigate("/user");
+            }
+        } catch (error) {
+            if (error instanceof ApiError) {
+                console.error(error.error);
+                showAlert("Ocurrió un error", error.error as string);
+            } else {
+                console.error(error);
+            }
+        }
+        setLoading({
+            show: false,
+            message: "",
+        });
     };
 
     return (
@@ -63,10 +144,7 @@ export default function Login() {
                 border={"1px solid"}
                 borderColor={scheme.outlineVariant}
             >
-                <Stack
-                    marginBottom={4}
-                    alignItems={"start"}
-                >
+                <Stack marginBottom={4} alignItems={"start"}>
                     <Logo type="horizontal" height="36px" />
                 </Stack>
                 <h1 className="headline-medium">Inicia tu sesión</h1>
@@ -79,8 +157,10 @@ export default function Login() {
                             fullWidth
                             placeholder="Usuario"
                             type="email"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
+                            value={data.user}
+                            onChange={(e) =>
+                                updateForm({ user: e.target.value })
+                            }
                             slotProps={{
                                 input: {
                                     sx: { borderRadius: 2 },
@@ -100,8 +180,10 @@ export default function Login() {
                             fullWidth
                             placeholder="Contraseña"
                             type={show ? "text" : "password"}
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            value={data.pass}
+                            onChange={(e) =>
+                                updateForm({ pass: e.target.value })
+                            }
                             slotProps={{
                                 input: {
                                     sx: { borderRadius: 2 },
@@ -134,6 +216,15 @@ export default function Login() {
                     }}
                 />
             </Stack>
+
+            <Loading show={loading.show} message={loading.message} />
+            <SimpleDialog
+                show={alert.show}
+                title={alert.title}
+                message={alert.message}
+                icon={alert.icon}
+                onClose={() => setAlert((prev) => ({ ...prev, show: false }))}
+            />
         </Stack>
     );
 }
