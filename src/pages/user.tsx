@@ -1,4 +1,5 @@
 import Dashboard from "@components/Dashboard";
+import { useSession } from "@hooks/session";
 
 import {
     AccountCircle,
@@ -8,8 +9,18 @@ import {
     Segment,
 } from "@mui/icons-material";
 import Mapa from "@views/center/Mapa";
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
 
 export default function User() {
+    const session = useSession();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!session.user) {
+            navigate("/login");
+        }
+    }, []);
     return (
         <Dashboard
             options={[

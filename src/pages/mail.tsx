@@ -1,4 +1,5 @@
 import Dashboard from "@components/Dashboard";
+import { useSession } from "@hooks/session";
 
 import {
     AccountCircle,
@@ -12,10 +13,15 @@ import { useNavigate } from "react-router";
 
 export default function Mail() {
     const navigate = useNavigate();
+    const session = useSession();
 
     useEffect(() => {
+        if(!session.user) {
+            navigate("/login");
+            return;
+        }
         navigate("/mail/inbox");
-    }, []);
+    }, [session.user]);
 
     return (
         <Dashboard

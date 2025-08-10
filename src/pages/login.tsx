@@ -1,3 +1,4 @@
+import { useApiMail } from "@api/mail";
 import { useApiUser } from "@api/user";
 import Context from "@components/Context";
 import Loading from "@components/Loading";
@@ -25,6 +26,7 @@ import { useNavigate } from "react-router";
 
 export default function Login() {
     const { loginUser, userProfile } = useApiUser();
+    const { verIdentidad } = useApiMail();
     const { scheme } = useContext(Context);
     const [show, setShow] = useState(false);
 
@@ -108,6 +110,10 @@ export default function Login() {
             if (!hasToken) throw new Error("Sin token");
             const user = await userProfile();
             session.setUser(user);
+            const res = await verIdentidad();
+            if (res) {
+                session.setIdentity(res);
+            }
             if (user.role.length > 1) {
                 navigate("/role");
             } else {

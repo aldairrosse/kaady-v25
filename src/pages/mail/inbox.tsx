@@ -1,5 +1,6 @@
 import { useApiMail } from "@api/mail";
 import Context from "@components/Context";
+import MailDetail from "@components/MailDetail";
 import { Mail } from "@models/Mail";
 import { StarBorder, Sync } from "@mui/icons-material";
 import {
@@ -13,7 +14,7 @@ import {
     ListItemText,
     Stack,
 } from "@mui/material";
-import { getDateShort, parseEmailInfo } from "@utils/format";
+import { getDateShort, getEmailInfo } from "@utils/format";
 import { useContext, useEffect, useState } from "react";
 
 export default function Inbox() {
@@ -21,6 +22,13 @@ export default function Inbox() {
     const [mails, setMails] = useState<Mail[]>([]);
     const [loading, setLoading] = useState(false);
     const { scheme } = useContext(Context);
+    const [detail, setDetail] = useState({
+        id: "",
+        show: false,
+        from: "",
+        subject: "",
+        date: "",
+    });
 
     const load = async () => {
         setLoading(true);
@@ -38,7 +46,7 @@ export default function Inbox() {
     }, []);
 
     const getName = (from: string) => {
-        const info = parseEmailInfo(from);
+        const info = getEmailInfo(from);
         if (!info) return "Desconocido";
         if (info.name) return info.name;
         return info.email;
@@ -49,7 +57,7 @@ export default function Inbox() {
             width={"100%"}
             height={"100%"}
             sx={{
-                px: 4,
+                px: 2,
                 pt: 2,
                 pb: 10,
                 overflowY: "auto",
@@ -91,7 +99,18 @@ export default function Inbox() {
             <List disablePadding>
                 {mails.map((item, i) => (
                     <ListItem key={i} disablePadding>
-                        <ListItemButton sx={{ borderRadius: 4, gap: 2 }}>
+                        <ListItemButton
+                            sx={{ borderRadius: 4, gap: 2 }}
+                            onClick={() =>
+                                setDetail({
+                                    show: true,
+                                    id: item.key,
+                                    from: item.from,
+                                    subject: item.subject,
+                                    date: item.date,
+                                })
+                            }
+                        >
                             <h2
                                 className="title-medium"
                                 style={{
@@ -136,6 +155,13 @@ export default function Inbox() {
                     </ListItem>
                 ))}
             </List>
+
+            <MailDetail
+                {...detail}
+                onClose={() =>
+                    setDetail((p) => ({ ...p, show: false, id: "" }))
+                }
+            />
         </Box>
     );
 }

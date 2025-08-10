@@ -59,7 +59,19 @@ export function getDateShort(date: string) {
     });
 }
 
-export function parseEmailInfo(
+export function getDateFull(date: string) {
+    const d = new Date(date);
+    return d.toLocaleString("es-MX", {
+        minute: "2-digit",
+        hour: "2-digit",
+        hour12: true,
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+    });
+}
+
+export function getEmailInfo(
     input: string
 ): { name?: string; email: string } | null {
     const regex =
@@ -72,4 +84,32 @@ export function parseEmailInfo(
     const email = match[2] || match[3];
 
     return { name, email };
+}
+
+export function getEmailFrom(email: string, name?: string) {
+    if (!name) return email;
+    return `${name} <${email}>`;
+}
+
+export function getSizeLabel(size: number) {
+    const orden = Math.log10(size);
+    if (orden < 3) {
+        return `${size} B`;
+    }
+    if (orden < 6) {
+        const value = roundToDecimals(size / Math.pow(10, 3), 2);
+        return `${value} KB`;
+    }
+    if (orden < 9) {
+        const value = roundToDecimals(size / Math.pow(10, 6), 2);
+        return `${value} MB`;
+    }
+    const value = roundToDecimals(size / Math.pow(10, 9), 2);
+    return `${value} GB`;
+}
+
+export function roundToDecimals(num: number, dec: number = 0) {
+    const factor = Math.pow(10, dec);
+    const value = Math.round(num * factor) / factor;
+    return value;
 }
