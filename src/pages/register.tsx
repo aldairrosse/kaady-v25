@@ -68,6 +68,12 @@ export default function Register() {
             show: false,
         }));
         if (alert.text.includes("Iniciar")) {
+            const now = new Date();
+            now.setFullYear(now.getFullYear() - 18);
+            now.setHours(0, 0, 0, 0);
+            register.setAccount("", "");
+            register.setAge(now, "D");
+            register.setNames("", "", "");
             navigate("/login", { replace: true });
         }
     };
