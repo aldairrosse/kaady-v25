@@ -1,5 +1,5 @@
-import { useRequest } from "@hooks/request";
-import { useSession } from "@hooks/session";
+import { useRequest } from "@hooks/useRequest";
+import { useSession } from "@hooks/useSession";
 import { Mail, MailIdentity, MailSend } from "@models/Mail";
 
 export function useApiMail() {

@@ -70,7 +70,10 @@ function App() {
 
     return (
         <Context.Provider value={value}>
-            <APIProvider apiKey={import.meta.env.VITE_GOOGLE_API_KEY}>
+            <APIProvider
+                apiKey={import.meta.env.VITE_GOOGLE_API_KEY}
+                libraries={["places", "marker"]}
+            >
                 <ThemeProvider theme={value.theme}>
                     <CssBaseline />
                     <BrowserRouter>

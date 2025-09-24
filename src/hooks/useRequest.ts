@@ -1,4 +1,5 @@
-import { useSession } from "./session";
+import { useNavigate } from "react-router";
+import { useSession } from "./useSession";
 
 const REQ_TIMEOUT = 15000;
 
@@ -21,15 +22,18 @@ export class ApiError extends Error {
 }
 
 export function useRequest() {
-    const token = useSession((state) => state.token);
+    const navigate = useNavigate();
 
     async function request<T>(path: string, option: Partial<Options> = {}) {
         try {
+            const token = useSession.getState().token;
             const headers = new Headers(option.headers);
 
             if (!option.base) {
                 const base = import.meta.env.VITE_API_BASE;
-                headers.append("Authorization", `Bearer ${token}`);
+                if (token) {
+                    headers.append("Authorization", `Bearer ${token}`);
+                }
                 headers.append("Content-Type", "application/json");
                 option.base = base;
             }
@@ -46,7 +50,7 @@ export function useRequest() {
             const body = option.body ? JSON.stringify(option.body) : undefined;
             const controller = new AbortController();
             setTimeout(() => controller.abort(), option.timeout);
-            const res = await fetch(url, {
+            const res = await fetch(url.toString(), {
                 body,
                 headers,
                 method: option.method,
@@ -54,7 +58,19 @@ export function useRequest() {
             });
             const data = await res.json();
             if (!res.ok) {
-                const error = new ApiError(data.message, data.error);
+                if (res.status == 403 || res.status == 401) {
+                    useSession.getState().logout();
+                    const from = location.pathname;
+                    if (from != "/login") {
+                        navigate("/login", {
+                            state: { from },
+                        });
+                    }
+                }
+                const error = new ApiError(
+                    data.message,
+                    data.error || "Se encontró un error desconocido"
+                );
                 throw error;
             }
             return data as T;
@@ -63,7 +79,7 @@ export function useRequest() {
                 throw error;
             }
             const err = error as Error;
-            let message = err.message;
+            let message = err.message || "Ocurrió un error desconocido";
             let name = err.name;
             if (message == "Failed to fetch") {
                 name = "Error de red";

@@ -2,8 +2,8 @@ import { useApiMail } from "@api/mail";
 import Context from "@components/Context";
 import Loading from "@components/Loading";
 import SimpleDialog from "@components/SimpleDialog";
-import { ApiError } from "@hooks/request";
-import { useSession } from "@hooks/session";
+import { ApiError } from "@hooks/useRequest";
+import { useSession } from "@hooks/useSession";
 import {
     AttachFile,
     Delete,

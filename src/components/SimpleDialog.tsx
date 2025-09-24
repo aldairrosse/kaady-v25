@@ -35,7 +35,9 @@ export default function SimpleDialog({
                 )}
             </Stack>
             <Stack width={"100%"} gap={1}>
-                <h2 className="title-large">{title}</h2>
+                <h2 className="title-large" style={{ textAlign: "center" }}>
+                    {title}
+                </h2>
                 <p className="body-large opacity-80">{message}</p>
             </Stack>
             <Stack direction={"row"} justifyContent={"end"} mt={2}>

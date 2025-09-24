@@ -8,7 +8,7 @@ export interface Mail {
     body?: string;
     attachments: {
         filename: string;
-        content_base64: string;
+        base64: string;
         mime_type: string;
     }[];
 }
@@ -20,7 +20,7 @@ export interface MailSend {
     content: string;
     attachments: {
         filename: string;
-        content_base64: string;
+        base64: string;
         mime_type: string;
     }[];
 }

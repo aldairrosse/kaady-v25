@@ -1,3 +1,4 @@
+import { Center } from "@models/Center";
 import { MailIdentity } from "@models/Mail";
 import { User } from "@models/User";
 import { create } from "zustand";
@@ -7,6 +8,7 @@ interface State {
     token: string;
     user?: User;
     identity?: MailIdentity;
+    centros: Center[];
     logout: () => void;
     setToken: (token: string) => void;
     setUser: (user: User) => void;
@@ -18,8 +20,14 @@ export const useSession = create<State>()(
     persist(
         (set, get) => ({
             token: "",
+            centros: [],
             logout: () =>
-                set({ token: "", user: undefined, identity: undefined }),
+                set({
+                    token: "",
+                    user: undefined,
+                    identity: undefined,
+                    centros: [],
+                }),
             setToken: (token) => set({ token }),
             setUser: (user) => set({ user }),
             name: () => {
@@ -37,6 +45,7 @@ export const useSession = create<State>()(
             name: "session_data",
             partialize: (state) => ({
                 token: state.token,
+                user: state.user,
             }),
         }
     )

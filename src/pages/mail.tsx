@@ -1,5 +1,5 @@
 import Dashboard from "@components/Dashboard";
-import { useSession } from "@hooks/session";
+import { useSession } from "@hooks/useSession";
 
 import {
     AccountCircle,

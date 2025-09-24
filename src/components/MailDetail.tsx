@@ -1,4 +1,4 @@
-import { ArrowBack } from "@mui/icons-material";
+import { ArrowBack, FileDownloadOutlined } from "@mui/icons-material";
 import {
     Card,
     CardActionArea,
@@ -56,10 +56,10 @@ export default function MailDetail({
 
     function downloadFile(attachment: {
         filename: string;
-        content_base64: string;
+        base64: string;
         mime_type: string;
     }) {
-        const byteCharacters = atob(attachment.content_base64);
+        const byteCharacters = atob(attachment.base64);
         const byteNumbers = new Array(byteCharacters.length);
         for (let i = 0; i < byteCharacters.length; i++) {
             byteNumbers[i] = byteCharacters.charCodeAt(i);
@@ -88,7 +88,7 @@ export default function MailDetail({
             <Container
                 maxWidth="md"
                 sx={{
-                    height: "100dvh",
+                    height: "100vh",
                     overflow: "hidden",
                     display: "flex",
                     flexDirection: "column",
@@ -137,12 +137,15 @@ export default function MailDetail({
                         gap={2}
                         direction={"row"}
                         flexGrow={1}
+                        alignItems={"center"}
                     >
                         {mail?.attachments.map((a, i) => (
                             <Card
                                 key={i}
                                 sx={{
                                     overflow: "unset",
+                                    height: "min-content",
+                                    marginBottom: 1,
                                 }}
                             >
                                 <CardActionArea
@@ -151,11 +154,14 @@ export default function MailDetail({
                                         py: 1,
                                         bgcolor: scheme.primaryContainer,
                                         color: scheme.primary,
+                                        display: "flex",
+                                        gap: 1,
                                     }}
                                     onClick={() => downloadFile(a)}
                                 >
+                                    <FileDownloadOutlined fontSize="small" />
                                     <p
-                                        className="body-large"
+                                        className="body-small"
                                         style={{ whiteSpace: "nowrap" }}
                                     >
                                         {a.filename}

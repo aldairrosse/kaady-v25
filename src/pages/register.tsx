@@ -2,8 +2,8 @@ import { useApiUser } from "@api/user";
 import Loading from "@components/Loading";
 import Logo from "@components/Logo";
 import SimpleDialog from "@components/SimpleDialog";
-import { useRegister } from "@hooks/register";
-import { ApiError } from "@hooks/request";
+import { useRegister } from "@hooks/useRegister";
+import { ApiError } from "@hooks/useRequest";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import {
     AppBar,

@@ -1,10 +1,24 @@
+import { useApiAdmin } from "@api/admin";
 import Context from "@components/Context";
+import { Resumen as ResumenType } from "@models/Admin";
 import { Box, Card, Stack } from "@mui/material";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 
 export default function Resumen() {
     const { scheme } = useContext(Context);
-
+    const { verResumen } = useApiAdmin();
+    const [data, setData] = useState<ResumenType>();
+    useEffect(() => {
+        const load = async () => {
+            try {
+                const res = await verResumen();
+                setData(res);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        load();
+    }, []);
     return (
         <Box width={"100%"} height={"100%"} sx={{ p: 4 }}>
             <Stack>
@@ -22,7 +36,7 @@ export default function Resumen() {
                         px: 4,
                     }}
                 >
-                    <p className="title-large">5</p>
+                    <p className="title-large">{data?.users ?? 0}</p>
                     <h2 className="body-medium opacity-80">Usuarios</h2>
                 </Card>
                 <Card
@@ -36,7 +50,7 @@ export default function Resumen() {
                         px: 4,
                     }}
                 >
-                    <p className="title-large">21</p>
+                    <p className="title-large">{data?.centers ?? 0}</p>
                     <h2 className="body-medium opacity-80">Centros</h2>
                 </Card>
                 <Card
@@ -50,7 +64,7 @@ export default function Resumen() {
                         px: 4,
                     }}
                 >
-                    <p className="title-large">2</p>
+                    <p className="title-large">{data?.stores ?? 0}</p>
                     <h2 className="body-medium opacity-80">Tiendas</h2>
                 </Card>
                 <Card
@@ -64,7 +78,7 @@ export default function Resumen() {
                         px: 4,
                     }}
                 >
-                    <p className="title-large">7</p>
+                    <p className="title-large">{data?.memberships ?? 0}</p>
                     <h2 className="body-medium opacity-80">Membresías</h2>
                 </Card>
             </Stack>

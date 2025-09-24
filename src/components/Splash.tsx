@@ -3,7 +3,7 @@ import { CircularProgress, Stack } from "@mui/material";
 export default function Splash() {
     return (
         <Stack
-            height={"100dvh"}
+            height={"100vh"}
             justifyContent={"center"}
             padding={4}
             alignItems={"center"}

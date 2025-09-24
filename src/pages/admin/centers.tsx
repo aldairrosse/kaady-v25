@@ -27,25 +27,46 @@ import {
 } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 
-import centers from "@config/kaady-centers.json";
 import Context from "@components/Context";
 import { useNavigate } from "react-router";
+import { Center } from "@models/Center";
+import { useApiCenter } from "@api/center";
+import { getMembershipFrom } from "@utils/format";
+import { useCenter } from "@hooks/useCenter";
+import { ApiError } from "@hooks/useRequest";
+import { useDebounce } from "@hooks/useDebounce";
+import ImagePlaceholder from "@components/ImagePlaceholder";
+import { getDocUrl } from "@utils/docs";
+import { Paginator } from "@models/Settings";
 
 export default function Centers() {
+    const { listarCentros } = useApiCenter();
     const { scheme } = useContext(Context);
     const [search, setSearch] = useState("");
-    const [filterd, setFiltered] = useState(centers);
+    const debouncedSearch = useDebounce(search, 500);
+    const [filtered, setFiltered] = useState<Center[]>([]);
+    const [paginator, setPaginator] = useState<Paginator>();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const navigate = useNavigate();
     const open = Boolean(anchorEl);
+    const center = useCenter();
 
     useEffect(() => {
-        setFiltered(
-            centers.filter((item) =>
-                item.nombre.toLowerCase().includes(search.toLowerCase())
-            )
-        );
-    }, [search]);
+        const load = async () => {
+            try {
+                const res = await listarCentros({
+                    search: debouncedSearch,
+                    page: debouncedSearch.length ? 1 : paginator?.page ?? 1,
+                    limit: 2,
+                });
+                setFiltered(res.data);
+                setPaginator(res.paginator);
+            } catch (error) {
+                console.error((error as ApiError).error);
+            }
+        };
+        load();
+    }, [debouncedSearch, paginator?.page]);
 
     return (
         <Box
@@ -84,13 +105,24 @@ export default function Centers() {
                     startIcon={<Add />}
                     sx={{ px: 3, py: 1 }}
                     variant="outlined"
-                    onClick={() => navigate("/admin/center/profile")}
+                    onClick={() => {
+                        center.reset();
+                        navigate("/admin/center/profile");
+                    }}
                 >
                     Registrar
                 </Button>
             </Stack>
             <Stack gap={4} mt={4} flexGrow={1}>
-                {filterd.map((item, i) => (
+                {filtered.length == 0 &&
+                    (debouncedSearch?.length ? (
+                        <p className="body-medium opacity-80">
+                            No se encontraron resultados
+                        </p>
+                    ) : (
+                        <p className="body-medium opacity-80">No hay centros</p>
+                    ))}
+                {filtered.map((item, i) => (
                     <Stack
                         direction={"row"}
                         gap={2}
@@ -103,12 +135,25 @@ export default function Centers() {
                                 color: scheme.primary,
                             }}
                         >
-                            {item.nombre.charAt(0)}
+                            {item.image?.id ? (
+                                <ImagePlaceholder
+                                    width={"100%"}
+                                    height={"100%"}
+                                    fit="cover"
+                                    src={getDocUrl(item.image, {
+                                        width: 100,
+                                        height: 100,
+                                    })}
+                                    disableBorder
+                                />
+                            ) : (
+                                item.name.charAt(0)
+                            )}
                         </Avatar>
                         <div style={{ flexGrow: 1 }}>
-                            <h2 className="title-medium">{item.nombre}</h2>
+                            <h2 className="title-medium">{item.name}</h2>
                             <p className="body-medium opacity-70">
-                                {"Nezahualcoyotl, México"}
+                                {item.location_data?.address ?? "Sin ubicación"}
                             </p>
                         </div>
                         <Card
@@ -120,10 +165,15 @@ export default function Centers() {
                                 color: scheme.onSecondary,
                             }}
                         >
-                            <p className="body-medium">Basic</p>
+                            <p className="body-medium">
+                                {getMembershipFrom(item.available_from)}
+                            </p>
                         </Card>
                         <IconButton
-                            onClick={(e) => setAnchorEl(e.currentTarget)}
+                            onClick={(e) => {
+                                setAnchorEl(e.currentTarget);
+                                center.setData(item);
+                            }}
                         >
                             <MoreVert />
                         </IconButton>
@@ -193,7 +243,17 @@ export default function Centers() {
                 </Menu>
             </Stack>
             <Stack alignItems={"center"}>
-                <Pagination count={1} color="primary" sx={{ mt: 6 }} />
+                {paginator && (
+                    <Pagination
+                        color="primary"
+                        count={paginator.pages}
+                        page={paginator.page}
+                        onChange={(_, page) => {
+                            const p = { ...paginator, page };
+                            setPaginator(p);
+                        }}
+                    />
+                )}
             </Stack>
         </Box>
     );

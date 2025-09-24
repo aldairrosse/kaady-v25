@@ -113,3 +113,13 @@ export function roundToDecimals(num: number, dec: number = 0) {
     const value = Math.round(num * factor) / factor;
     return value;
 }
+
+export function getMembershipFrom(from?: number) {
+    const availables = {
+        1: "Basic",
+        2: "Silver",
+        3: "Gold",
+        4: "Black",
+    } as { [key: number]: string };
+    return availables[from ?? 1] ?? "Basic";
+}

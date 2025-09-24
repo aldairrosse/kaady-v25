@@ -32,7 +32,7 @@ function Welcome() {
                     alignItems={"center"}
                     width={"100%"}
                     paddingBottom={isMobile ? 10 : 0}
-                    minHeight={"calc(100dvh - 148px)"}
+                    minHeight={"calc(100vh - 148px)"}
                 >
                     <Stack
                         maxWidth={450}

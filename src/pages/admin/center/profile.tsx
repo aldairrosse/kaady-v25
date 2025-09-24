@@ -1,6 +1,12 @@
+import { useApiCenter } from "@api/center";
+import Loading from "@components/Loading";
+import SimpleDialog from "@components/SimpleDialog";
+import { useCenter } from "@hooks/useCenter";
+import { ApiError } from "@hooks/useRequest";
 import {
-    AccountCircle,
+    // AccountCircle,
     ArrowBack,
+    ArrowForward,
     Check,
     FitnessCenter,
 } from "@mui/icons-material";
@@ -21,8 +27,16 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 
 export default function Nuevo() {
+    const { actualizarCentro } = useApiCenter();
+    const center = useCenter((s) => s.data);
+    const update = useCenter((s) => s.setData);
     const navigate = useNavigate();
-    const [list, setList] = useState<string[]>([]);
+    const [loading, setLoading] = useState({ show: false, message: "" });
+    const [alert, setAlert] = useState({
+        show: false,
+        message: "",
+        title: "",
+    });
     const activities = [
         "Boxeo",
         "Danza",
@@ -37,11 +51,48 @@ export default function Nuevo() {
         "Running",
         "Otro",
     ];
+    const showAlert = (title: string, message: string) => {
+        setAlert({
+            show: true,
+            title,
+            message,
+        });
+    };
+    const handleAction = async () => {
+        if (!center._id) {
+            navigate("/admin/center/location");
+            return;
+        }
+        setLoading({
+            show: true,
+            message: "Actualizando perfil...",
+        });
+        try {
+            await actualizarCentro(center._id, {
+                name: center.name,
+                description: center.description,
+                activities: center.activities,
+            });
+            navigate(-1);
+        } catch (error) {
+            const err = error as ApiError;
+            showAlert(err.message, err.error as string);
+        }
+        setLoading({
+            show: false,
+            message: "",
+        });
+    };
+    const isInvalid = () => {
+        return (
+            !center.name || !center.description || !center.activities?.length
+        );
+    };
     return (
         <Stack
             sx={{
-                height: "100dvh",
-                maxHeight: "100dvh",
+                height: "100vh",
+                maxHeight: "100vh",
                 width: "100%",
                 overflow: "hidden",
                 position: "relative",
@@ -57,33 +108,50 @@ export default function Nuevo() {
                     >
                         <ArrowBack />
                     </IconButton>
-                    <h1 className="title-large">Registra nuevo centro</h1>
+                    <h1 className="title-large">
+                        {center._id
+                            ? "Actualiza el perfil"
+                            : "Registra nuevo centro"}
+                    </h1>
                 </Toolbar>
             </AppBar>
             <Stack
                 flexGrow={1}
                 sx={{ overflowY: "auto", pt: 4, pb: 6, px: 4 }}
                 alignItems={"center"}
+                component={"form"}
+                autoComplete="off"
             >
                 <Stack maxWidth={"sm"} width={"100%"}>
                     <Stack alignItems={"center"} direction={"row"} gap={2}>
                         <FitnessCenter />
                         <h2 className="title-medium">Información básica</h2>
                     </Stack>
-                    <TextField label="Nombre de perfil" sx={{ mt: 2 }} />
+                    <TextField
+                        label="Nombre de perfil"
+                        sx={{ mt: 2 }}
+                        value={center.name || ""}
+                        onChange={(e) => update({ name: e.target.value })}
+                    />
                     <TextField
                         label="Descripción"
                         sx={{ mt: 2 }}
                         multiline
                         rows={3}
+                        value={center.description || ""}
+                        onChange={(e) =>
+                            update({ description: e.target.value })
+                        }
                     />
                     <FormControl fullWidth sx={{ mt: 2 }}>
                         <InputLabel>Actividades principales</InputLabel>
                         <Select
-                            value={list}
+                            value={center.activities || []}
                             label="Actividades principales"
                             onChange={(e) =>
-                                setList(e.target.value as string[])
+                                update({
+                                    activities: e.target.value as string[],
+                                })
                             }
                             multiple
                             MenuProps={{
@@ -101,7 +169,7 @@ export default function Nuevo() {
                             ))}
                         </Select>
                     </FormControl>
-                    <Stack
+                    {/* <Stack
                         alignItems={"center"}
                         direction={"row"}
                         gap={2}
@@ -121,20 +189,34 @@ export default function Nuevo() {
                         <TextField label="Correo electrónico" fullWidth />
                         <TextField label="Teléfono" fullWidth />
                     </Stack>
-                    <TextField label="Contraseña" sx={{ mt: 2 }} />
+                    <TextField label="Contraseña" sx={{ mt: 2 }} /> */}
                 </Stack>
             </Stack>
-            <Divider />
-            <Stack direction={"row"} px={4} py={2} justifyContent={"center"}>
+            <Divider className="opacity-30" />
+            <Stack
+                direction={"row"}
+                px={4}
+                py={2}
+                justifyContent={"end"}
+                bgcolor={(t) => t.palette.background.paper}
+            >
                 <Button
-                    startIcon={<Check />}
+                    startIcon={center._id ? <Check /> : <ArrowForward />}
                     variant="contained"
                     size="large"
                     disableElevation
+                    onClick={handleAction}
+                    disabled={isInvalid()}
                 >
-                    Registrar centro
+                    {center._id ? "Actualizar perfil" : "Siguiente"}
                 </Button>
             </Stack>
+
+            <Loading {...loading} />
+            <SimpleDialog
+                {...alert}
+                onClose={() => setAlert((prev) => ({ ...prev, show: false }))}
+            />
         </Stack>
     );
 }

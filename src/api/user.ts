@@ -1,4 +1,4 @@
-import { useRequest } from "@hooks/request";
+import { useRequest } from "@hooks/useRequest";
 import { User } from "@models/User";
 
 export function useApiUser() {

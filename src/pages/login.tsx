@@ -4,8 +4,8 @@ import Context from "@components/Context";
 import Loading from "@components/Loading";
 import Logo from "@components/Logo";
 import SimpleDialog from "@components/SimpleDialog";
-import { ApiError } from "@hooks/request";
-import { useSession } from "@hooks/session";
+import { ApiError } from "@hooks/useRequest";
+import { useSession } from "@hooks/useSession";
 import {
     AccountCircleOutlined,
     LockOutline,
@@ -21,8 +21,9 @@ import {
     Stack,
     TextField,
 } from "@mui/material";
+import { getRedirect } from "@utils/user";
 import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 export default function Login() {
     const { loginUser, userProfile } = useApiUser();
@@ -40,10 +41,19 @@ export default function Login() {
     });
     const session = useSession();
     const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
-        setTimeout(() => loadProfile(!!session.token), 1000);
-    }, [session.token]);
+        const init = async () => {
+            if (!session.token) return;
+            try {
+                await loadProfile();
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        init();
+    }, []);
 
     const passEnd = (
         <InputAdornment position="end">
@@ -86,6 +96,8 @@ export default function Login() {
                 show: true,
                 message: `Bienvenido ${res.data.name.trim()}, buscando perfil...`,
             });
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+            await loadProfile();
         } catch (error) {
             setLoading({
                 show: false,
@@ -93,6 +105,7 @@ export default function Login() {
             });
             const err = error as ApiError;
             showAlert(err.message, err.error as string, "error");
+            session.logout();
         }
     };
 
@@ -105,38 +118,37 @@ export default function Login() {
         });
     };
 
-    const loadProfile = async (hasToken: boolean) => {
-        try {
-            if (!hasToken) throw new Error("Sin token");
-            const user = await userProfile();
-            session.setUser(user);
-            const res = await verIdentidad();
-            if (res) {
-                session.setIdentity(res);
-            }
-            if (user.role.length > 1) {
-                navigate("/role");
-            } else {
-                navigate("/user");
-            }
-        } catch (error) {
-            if (error instanceof ApiError) {
-                console.error(error.error);
-                showAlert("Ocurrió un error", error.error as string);
-            } else {
-                console.error(error);
-            }
+    const loadProfile = async () => {
+        const user = await userProfile();
+        session.setUser(user);
+        const res = await verIdentidad();
+        if (res) {
+            session.setIdentity(res);
         }
-        setLoading({
-            show: false,
-            message: "",
-        });
+        if (!user.role.length) {
+            throw new ApiError(
+                "Usuario sin perfil",
+                "El usuario no tiene un rol o está sin perfil"
+            );
+        }
+        const from = location.state?.from;
+        if (from) {
+            navigate(from);
+            return;
+        }
+
+        if (user.role.length > 1) {
+            navigate("/role");
+            return;
+        }
+        const redirect = getRedirect(user.role[0]);
+        navigate(redirect.to);
     };
 
     return (
         <Stack
             sx={{ justifyContent: "center", alignItems: "center" }}
-            height={"100dvh"}
+            height={"100vh"}
             padding={2}
         >
             <Stack
@@ -223,12 +235,9 @@ export default function Login() {
                 />
             </Stack>
 
-            <Loading show={loading.show} message={loading.message} />
+            <Loading {...loading} />
             <SimpleDialog
-                show={alert.show}
-                title={alert.title}
-                message={alert.message}
-                icon={alert.icon}
+                {...alert}
                 onClose={() => setAlert((prev) => ({ ...prev, show: false }))}
             />
         </Stack>

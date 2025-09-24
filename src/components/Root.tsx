@@ -4,7 +4,7 @@ function Root(props: ContainerProps) {
     return (
         <Container
             maxWidth="lg"
-            style={{ height: "auto", minHeight: "100dvh" }}
+            style={{ height: "auto", minHeight: "100vh" }}
             {...props}
         >
             {props.children}

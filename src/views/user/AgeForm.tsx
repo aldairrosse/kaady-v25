@@ -1,4 +1,4 @@
-import { useRegister } from "@hooks/register";
+import { useRegister } from "@hooks/useRegister";
 import { Cake, Wc } from "@mui/icons-material";
 import {
     Box,

@@ -1,4 +1,4 @@
-import { useRegister } from "@hooks/register";
+import { useRegister } from "@hooks/useRegister";
 import { Badge } from "@mui/icons-material";
 import { Box, Icon, Stack, TextField } from "@mui/material";
 import { forwardRef, useEffect, useState } from "react";

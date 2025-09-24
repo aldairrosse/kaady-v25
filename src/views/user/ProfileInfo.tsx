@@ -1,5 +1,5 @@
 import Context from "@components/Context";
-import { useSession } from "@hooks/session";
+import { useSession } from "@hooks/useSession";
 import { Cake, Email, Logout, Sync, Wc } from "@mui/icons-material";
 import {
     Avatar,
