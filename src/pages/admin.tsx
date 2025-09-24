@@ -4,6 +4,7 @@ import {
     AccountCircle,
     Equalizer,
     FitnessCenter,
+    People,
     Segment,
 } from "@mui/icons-material";
 
@@ -20,6 +21,11 @@ export default function Admin() {
                     title: "Centros",
                     icon: <FitnessCenter />,
                     path: "/admin/centers",
+                },
+                {
+                    title: "Usuarios",
+                    icon: <People />,
+                    path: "/admin/users",
                 },
                 {
                     title: "Actividades",

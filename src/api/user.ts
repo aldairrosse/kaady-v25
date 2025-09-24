@@ -1,4 +1,5 @@
 import { useRequest } from "@hooks/useRequest";
+import { Filtro, Paginator } from "@models/Settings";
 import { User } from "@models/User";
 
 export function useApiUser() {
@@ -28,5 +29,15 @@ export function useApiUser() {
         return res.data;
     }
 
-    return { loginUser, userProfile, registerUser };
+    async function listarUsers(filtro: Partial<Filtro>) {
+        const res = request<{ data: User[]; paginator: Paginator }>(
+            "usuarios",
+            {
+                query: filtro,
+            }
+        );
+        return res;
+    }
+
+    return { loginUser, userProfile, registerUser, listarUsers };
 }

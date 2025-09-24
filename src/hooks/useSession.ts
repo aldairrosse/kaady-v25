@@ -1,6 +1,7 @@
 import { Center } from "@models/Center";
 import { MailIdentity } from "@models/Mail";
 import { User } from "@models/User";
+import { getUserFullName } from "@utils/user";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -31,13 +32,7 @@ export const useSession = create<State>()(
             setToken: (token) => set({ token }),
             setUser: (user) => set({ user }),
             name: () => {
-                return (
-                    (get().user?.name || "") +
-                    " " +
-                    (get().user?.paternal_surname || "") +
-                    " " +
-                    (get().user?.maternal_surname || "")
-                );
+                return getUserFullName(get().user);
             },
             setIdentity: (identity) => set({ identity }),
         }),

@@ -1,19 +1,22 @@
+import { useApiUser } from "@api/user";
+import Context from "@components/Context";
+import ImagePlaceholder from "@components/ImagePlaceholder";
+import { useDebounce } from "@hooks/useDebounce";
+import { ApiError } from "@hooks/useRequest";
+import { useUser } from "@hooks/useUser";
+import { Paginator } from "@models/Settings";
+import { User } from "@models/User";
 import {
     Add,
+    CardMembership,
     Edit,
-    // Lock,
-    MonetizationOn,
     MoreVert,
-    Photo,
-    Place,
-    Public,
     Search,
 } from "@mui/icons-material";
 import {
     Avatar,
     Box,
     Button,
-    Card,
     IconButton,
     InputAdornment,
     ListItemIcon,
@@ -25,36 +28,27 @@ import {
     Stack,
     TextField,
 } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
-
-import Context from "@components/Context";
-import { useNavigate } from "react-router";
-import { Center } from "@models/Center";
-import { useApiCenter } from "@api/center";
-import { getMembershipFrom } from "@utils/format";
-import { useCenter } from "@hooks/useCenter";
-import { ApiError } from "@hooks/useRequest";
-import { useDebounce } from "@hooks/useDebounce";
-import ImagePlaceholder from "@components/ImagePlaceholder";
 import { getDocUrl } from "@utils/docs";
-import { Paginator } from "@models/Settings";
+import { getUserFullName } from "@utils/user";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 
-export default function Centers() {
-    const { listarCentros } = useApiCenter();
+export default function Users() {
+    const { listarUsers } = useApiUser();
     const { scheme } = useContext(Context);
     const [search, setSearch] = useState("");
-    const debounced = useDebounce(search, 500);
-    const [filtered, setFiltered] = useState<Center[]>([]);
+    const [filtered, setFiltered] = useState<User[]>([]);
     const [paginator, setPaginator] = useState<Paginator>();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const navigate = useNavigate();
     const open = Boolean(anchorEl);
-    const center = useCenter();
+    const debounced = useDebounce(search, 500);
+    const navigate = useNavigate();
+    const user = useUser();
 
     useEffect(() => {
         const load = async () => {
             try {
-                const res = await listarCentros({
+                const res = await listarUsers({
                     search: debounced,
                     page: debounced.length ? 1 : paginator?.page ?? 1,
                 });
@@ -78,14 +72,15 @@ export default function Centers() {
                 flexDirection: "column",
             }}
         >
-            <h1 className="title-large">Centros deportivos</h1>
+            <h1 className="title-large">Usuarios</h1>
             <p className="body-large opacity-80" style={{ marginTop: 8 }}>
-                Registra y administra los perfiles de cada centro
+                Registra y administra todos los usuarios de la plataforma
             </p>
+
             <Stack mt={4} gap={2} direction={"row"} alignItems={"center"}>
                 <TextField
                     fullWidth
-                    placeholder="Buscar centro"
+                    placeholder="Buscar usuario"
                     size="small"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
@@ -105,8 +100,8 @@ export default function Centers() {
                     sx={{ px: 3, py: 1 }}
                     variant="outlined"
                     onClick={() => {
-                        center.reset();
-                        navigate("/admin/center/profile");
+                        user.reset();
+                        navigate("/admin/user/profile");
                     }}
                 >
                     Registrar
@@ -119,7 +114,9 @@ export default function Centers() {
                             No se encontraron resultados
                         </p>
                     ) : (
-                        <p className="body-medium opacity-80">No hay centros</p>
+                        <p className="body-medium opacity-80">
+                            No hay usuarios
+                        </p>
                     ))}
                 {filtered.map((item, i) => (
                     <Stack
@@ -150,28 +147,17 @@ export default function Centers() {
                             )}
                         </Avatar>
                         <div style={{ flexGrow: 1 }}>
-                            <h2 className="title-medium">{item.name}</h2>
+                            <h2 className="title-medium">
+                                {getUserFullName(item)}
+                            </h2>
                             <p className="body-medium opacity-70">
-                                {item.location_data?.address ?? "Sin ubicación"}
+                                {item.email}
                             </p>
                         </div>
-                        <Card
-                            elevation={0}
-                            sx={{
-                                px: "8px",
-                                py: "4px",
-                                bgcolor: scheme.secondary,
-                                color: scheme.onSecondary,
-                            }}
-                        >
-                            <p className="body-medium">
-                                {getMembershipFrom(item.available_from)}
-                            </p>
-                        </Card>
                         <IconButton
                             onClick={(e) => {
                                 setAnchorEl(e.currentTarget);
-                                center.setData(item);
+                                user.setData(item);
                             }}
                         >
                             <MoreVert />
@@ -193,7 +179,7 @@ export default function Centers() {
                 >
                     <MenuList>
                         <MenuItem
-                            onClick={() => navigate("/admin/center/profile")}
+                            onClick={() => navigate("/admin/user/profile")}
                         >
                             <ListItemIcon>
                                 <Edit fontSize="small" />
@@ -207,40 +193,17 @@ export default function Centers() {
                             <ListItemText>Bloquear</ListItemText>
                         </MenuItem> */}
                         <MenuItem
-                            onClick={() => navigate("/admin/center/location")}
+                            onClick={() => navigate("/admin/user/membership")}
                         >
                             <ListItemIcon>
-                                <Place fontSize="small" />
+                                <CardMembership fontSize="small" />
                             </ListItemIcon>
-                            <ListItemText>Ubicación</ListItemText>
-                        </MenuItem>
-                        <MenuItem
-                            onClick={() => navigate("/admin/center/payment")}
-                        >
-                            <ListItemIcon>
-                                <MonetizationOn fontSize="small" />
-                            </ListItemIcon>
-                            <ListItemText>Pago</ListItemText>
-                        </MenuItem>
-                        <MenuItem
-                            onClick={() => navigate("/admin/center/pictures")}
-                        >
-                            <ListItemIcon>
-                                <Photo fontSize="small" />
-                            </ListItemIcon>
-                            <ListItemText>Imágenes</ListItemText>
-                        </MenuItem>
-                        <MenuItem
-                            onClick={() => navigate("/admin/center/social")}
-                        >
-                            <ListItemIcon>
-                                <Public fontSize="small" />
-                            </ListItemIcon>
-                            <ListItemText>Redes</ListItemText>
+                            <ListItemText>Membresía</ListItemText>
                         </MenuItem>
                     </MenuList>
                 </Menu>
             </Stack>
+
             <Stack alignItems={"center"} sx={{ mt: 4 }}>
                 {paginator && (
                     <Pagination

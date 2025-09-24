@@ -1,3 +1,5 @@
+import { User } from "@models/User";
+
 const redirect: Record<number, { title: string; to: string }> = {
     1: {
         title: "Usuario",
@@ -31,4 +33,14 @@ export function getCurrentRole(path: string, roles?: number[]) {
         }
     }
     return "Desconocido";
+}
+
+export function getUserFullName(user?: User) {
+    return (
+        (user?.name || "") +
+        " " +
+        (user?.paternal_surname || "") +
+        " " +
+        (user?.maternal_surname || "")
+    );
 }
