@@ -1,15 +1,33 @@
 import Context from "@components/Context";
 import {
+    InstagramIcon,
+    TiktokIcon,
+    TwitterIcon,
+    YoutubeIcon,
+} from "@components/Icons";
+import { useCenter } from "@hooks/useCenter";
+import {
     FacebookOutlined,
-    Groups3Outlined,
     MiscellaneousServices,
+    Public,
     ScheduleOutlined,
 } from "@mui/icons-material";
-import { Box, Card, Icon, IconButton, Stack } from "@mui/material";
+import { Box, Card, IconButton, Stack } from "@mui/material";
 import { useContext } from "react";
 
 const Schedule = function () {
     const { scheme } = useContext(Context);
+    const center = useCenter((s) => s.data);
+    const sx = {
+        p: 1,
+        bgcolor: scheme.secondaryContainer,
+        color: scheme.onSecondaryContainer,
+    };
+    const handleTo = (v?: string) => {
+        if (!v) return;
+        if (!v.startsWith("http")) return;
+        window.open(v, "_blank");
+    };
     return (
         <Box
             sx={{
@@ -22,52 +40,75 @@ const Schedule = function () {
             }}
         >
             <Stack direction={"row"} gap={2} mb={1}>
-                <Icon>
-                    <ScheduleOutlined />
-                </Icon>
+                <ScheduleOutlined />
                 <h2 className="title-large">Horarios</h2>
             </Stack>
             <p className="body-medium opacity-80">Todos los días</p>
-            <p className="body-medium opacity-80">10:00 am - 06:00 pm</p>
 
-            <Stack direction={"row"} gap={2} mb={1} mt={4}>
-                <Icon>
-                    <Groups3Outlined />
-                </Icon>
-                <h2 className="title-large">Redes sociales</h2>
-            </Stack>
+            {center.social_data && (
+                <Stack direction={"row"} gap={2} mb={1} mt={4}>
+                    <Public />
+                    <h2 className="title-large">Redes sociales</h2>
+                </Stack>
+            )}
             <Stack direction={"row"} gap={2}>
-                <IconButton
-                    sx={{
-                        p: 1,
-                        bgcolor: scheme.secondaryContainer,
-                        color: scheme.onSecondaryContainer,
-                    }}
-                    onClick={() => {}}
-                >
-                    <FacebookOutlined />
-                </IconButton>
+                {center.social_data?.facebook && (
+                    <IconButton
+                        sx={sx}
+                        onClick={() => handleTo(center.social_data?.facebook)}
+                    >
+                        <FacebookOutlined />
+                    </IconButton>
+                )}
+                {center.social_data?.twitter && (
+                    <IconButton
+                        sx={sx}
+                        onClick={() => handleTo(center.social_data?.twitter)}
+                    >
+                        <TwitterIcon />
+                    </IconButton>
+                )}
+                {center.social_data?.instagram && (
+                    <IconButton
+                        sx={sx}
+                        onClick={() => handleTo(center.social_data?.instagram)}
+                    >
+                        <InstagramIcon />
+                    </IconButton>
+                )}
+                {center.social_data?.tiktok && (
+                    <IconButton
+                        sx={sx}
+                        onClick={() => handleTo(center.social_data?.tiktok)}
+                    >
+                        <TiktokIcon />
+                    </IconButton>
+                )}
+                {center.social_data?.youtube && (
+                    <IconButton
+                        sx={sx}
+                        onClick={() => handleTo(center.social_data?.youtube)}
+                    >
+                        <YoutubeIcon />
+                    </IconButton>
+                )}
             </Stack>
 
             <Stack direction={"row"} gap={2} mb={1} mt={4}>
-                <Icon>
-                    <MiscellaneousServices />
-                </Icon>
+                <MiscellaneousServices />
                 <h2 className="title-large">Servicios del centro</h2>
             </Stack>
-            <Stack direction={"row"} gap={2} mt={2} flexWrap={'wrap'}>
-                <Card variant="outlined" sx={{ px: 2, py: 2 }}>
-                    <p className="body-medium">Estacionamiento</p>
-                </Card>
-                <Card variant="outlined" sx={{ px: 2, py: 2 }}>
-                    <p className="body-medium">Baños</p>
-                </Card>
-                <Card variant="outlined" sx={{ px: 2, py: 2 }}>
-                    <p className="body-medium">Regaderas</p>
-                </Card>
-                <Card variant="outlined" sx={{ px: 2, py: 2 }}>
-                    <p className="body-medium">Wi-Fi</p>
-                </Card>
+            <Stack direction={"row"} gap={2} mt={2} flexWrap={"wrap"}>
+                {center.services?.map((i) => (
+                    <Card variant="outlined" key={i} sx={{ px: 2, py: 2 }}>
+                        <p className="body-medium">{i}</p>
+                    </Card>
+                ))}
+                {!center.services?.length && (
+                    <p className="body-medium opacity-80">
+                        No hay servicios disponibles
+                    </p>
+                )}
             </Stack>
         </Box>
     );

@@ -7,14 +7,17 @@ export function useApiCenter() {
 
     async function listarCentros(
         filtro: Partial<Filtro>,
-        loc?: { lat: number; lng: number }
+        loc?: { lat?: number; lng?: number }
     ) {
         const res = request<{ data: Center[]; paginator: Paginator }>(
             "centers",
             {
                 query: {
                     ...filtro,
-                    centro: loc ? `${loc.lat},${loc.lng}` : undefined,
+                    centro:
+                        loc && loc.lat && loc.lng
+                            ? `${loc.lat},${loc.lng}`
+                            : undefined,
                 },
             }
         );

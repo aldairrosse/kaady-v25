@@ -50,8 +50,9 @@ export default function Home() {
     }, [pathname]);
 
     const sx: SxProps = {
-        minHeight: 30,
-        padding: "8px 12px",
+        minHeight: "unset",
+        padding: "8px 16px",
+        minWidth: "auto",
     };
 
     const toHome = () => navigate("/home");
@@ -70,7 +71,18 @@ export default function Home() {
                             value={ruta}
                             aria-label="navbar"
                             component="nav"
-                            sx={{ minHeight: 36 }}
+                            slotProps={{
+                                indicator: {
+                                    sx: {
+                                        borderRadius: "6px 6px 0 0",
+                                        height: "3px",
+                                        transform: "scaleX(0.8)",
+                                    },
+                                },
+                            }}
+                            sx={{
+                                minHeight: "unset",
+                            }}
                         >
                             <Tab
                                 label="Inicio"

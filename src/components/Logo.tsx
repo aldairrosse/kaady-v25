@@ -143,7 +143,6 @@ function Logo({
                     </defs>
                     <path
                         fill="url(#bg)"
-                        stroke="white"
                         d="M39,3A12,12,0,0,1,51,15V39A12,12,0,0,1,39,51H15A12,12,0,0,1,3,39V15A12,12,0,0,1,15,3H39Z"
                     />
                     <path

@@ -39,5 +39,28 @@ export function useApiUser() {
         return res;
     }
 
-    return { loginUser, userProfile, registerUser, listarUsers };
+    async function createUser(data: Partial<User>) {
+        const res = await request<{ message: string }>("usuario", {
+            method: "POST",
+            body: data,
+        });
+        return res.message;
+    }
+
+    async function updateUser(id: string, data: Partial<User>) {
+        const res = await request<{ message: string }>(`usuario/${id}`, {
+            method: "PUT",
+            body: data,
+        });
+        return res.message;
+    }
+
+    return {
+        loginUser,
+        userProfile,
+        registerUser,
+        listarUsers,
+        createUser,
+        updateUser,
+    };
 }

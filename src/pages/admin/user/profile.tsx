@@ -23,11 +23,33 @@ import {
 import { useNavigate } from "react-router";
 import { getDateInput, parseDateInput } from "@utils/format";
 import { useState, useEffect } from "react";
+import { ApiError } from "@hooks/useRequest";
+import SimpleDialog from "@components/SimpleDialog";
+import Loading from "@components/Loading";
+import { useApiUser } from "@api/user";
+import { User } from "@models/User";
 
 export default function Profile() {
+    const { updateUser, createUser } = useApiUser();
+
     const navigate = useNavigate();
     const user = useUser((s) => s.data);
     const update = useUser((s) => s.setData);
+
+    const [loading, setLoading] = useState({ show: false, message: "" });
+    const [alert, setAlert] = useState({
+        show: false,
+        message: "",
+        title: "",
+    });
+
+    const showAlert = (title: string, message: string) => {
+        setAlert({
+            show: true,
+            title,
+            message,
+        });
+    };
 
     const max = new Date();
     max.setHours(0, 0, 0, 0);
@@ -46,15 +68,60 @@ export default function Profile() {
         }
     }, [birthday]);
 
-    const handleAction = async () => {};
+    const handleAction = async () => {
+        const loader = !user._id ? "Registrando usuario..." : "Actualizando usuario...";
+        setLoading({
+            show: true,
+            message: loader,
+        });
+
+        try {
+            const data: Partial<User> = {
+                name: user.name?.trim(),
+                paternal_surname: user.paternal_surname?.trim(),
+                maternal_surname: user.maternal_surname?.trim(),
+                birthday: user.birthday,
+                genre: user.genre,
+                email: user.email?.trim(),
+                password: user.password?.trim(),
+                role: user.role?.length ? user.role : undefined,
+                center: user.center?.trim() ? user.center : undefined
+            }
+            if (!user._id) {
+                await createUser(data);
+            } else {
+                await updateUser(user._id, data);
+            }
+            navigate(-1);
+        } catch (error) {
+            const err = error as ApiError;
+            const msg =
+                typeof err.error == "string"
+                    ? err.error
+                    : err.error
+                          .map((v) => v.field + ": " + v.detail)
+                          .join(", ");
+            showAlert(err.message, msg);
+        }
+        setLoading({
+            show: false,
+            message: "",
+        });
+    };
     const isInvalid = () => {
         const basicRequired = !user.name;
         const accessRequired = !user._id && (!user.email || !user.password);
         const adminRequired = !user.role?.length;
         const centerIdInvalid = !!user.center && user.center.length !== 24;
+        const validDate = parseDateInput(birthday);
+        const rangeRequired = !validDate || validDate < min || validDate > max;
 
         return (
-            basicRequired || accessRequired || adminRequired || centerIdInvalid
+            basicRequired ||
+            accessRequired ||
+            adminRequired ||
+            centerIdInvalid ||
+            rangeRequired
         );
     };
     return (
@@ -289,6 +356,12 @@ export default function Profile() {
                     </Button>
                 </Stack>
             </Stack>
+
+            <Loading {...loading} />
+            <SimpleDialog
+                {...alert}
+                onClose={() => setAlert((prev) => ({ ...prev, show: false }))}
+            />
         </Stack>
     );
 }

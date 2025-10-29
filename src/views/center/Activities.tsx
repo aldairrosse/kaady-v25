@@ -1,16 +1,14 @@
 import { Box, Card, Stack } from "@mui/material";
-import { useParams } from "react-router";
-import centers from "@config/kaady-centers.json";
+import { useCenter } from "@hooks/useCenter";
+import { ListAlt } from "@mui/icons-material";
 
 export default function Activities() {
-    const { id } = useParams();
-
-    const center = centers[Number(id)];
+    const { data: center } = useCenter();
 
     return (
         <Box sx={{ pt: 4, pb: 6, px: 2 }}>
             <Stack gap={2} sx={{ px: 1 }}>
-                {center.actividades.map((v) => (
+                {center.activities?.map((v) => (
                     <Card
                         elevation={0}
                         key={v}
@@ -27,6 +25,14 @@ export default function Activities() {
                         </p>
                     </Card>
                 ))}
+                {!center.activities?.length && (
+                    <Stack alignItems={"center"} gap={2} paddingY={4}>
+                        <ListAlt />
+                        <p className="body-medium opacity-80">
+                            No hay actividades registradas
+                        </p>
+                    </Stack>
+                )}
             </Stack>
         </Box>
     );

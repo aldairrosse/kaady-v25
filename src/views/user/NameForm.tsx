@@ -13,7 +13,7 @@ const NameForm = forwardRef(function (_, ref) {
     });
 
     useEffect(() => {
-        setNames(data.name, data.first, data.second);
+        setNames(data.name.trim(), data.first.trim(), data.second.trim());
     }, [data]);
 
     return (

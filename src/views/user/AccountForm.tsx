@@ -12,7 +12,7 @@ const AccountForm = forwardRef((_, ref) => {
     });
 
     useEffect(() => {
-        setAccount(data.mail, data.pass);
+        setAccount(data.mail.trim(), data.pass.trim());
     }, [data]);
     return (
         <Box ref={ref}>
