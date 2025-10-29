@@ -130,7 +130,9 @@ export default function Centers() {
                     >
                         <Avatar
                             sx={{
-                                bgcolor: scheme.primaryContainer,
+                                bgcolor: item.image?.id
+                                    ? "unset"
+                                    : scheme.primaryContainer,
                                 color: scheme.primary,
                             }}
                         >

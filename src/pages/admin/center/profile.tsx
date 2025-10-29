@@ -8,11 +8,14 @@ import {
     ArrowBack,
     ArrowForward,
     Check,
+    ContentCopy,
     FitnessCenter,
+    InfoRounded,
 } from "@mui/icons-material";
 import {
     AppBar,
     Button,
+    Card,
     Divider,
     FormControl,
     IconButton,
@@ -169,6 +172,50 @@ export default function Nuevo() {
                             ))}
                         </Select>
                     </FormControl>
+
+                    {center._id && (
+                        <>
+                            <Stack
+                                alignItems={"center"}
+                                direction={"row"}
+                                gap={2}
+                                mt={6}
+                            >
+                                <InfoRounded />
+                                <h2 className="title-medium">Identificador</h2>
+                            </Stack>
+                            <Card
+                                sx={{
+                                    width: "min-content",
+                                    padding: "4px 8px",
+                                    mt: 1,
+                                }}
+                                variant="outlined"
+                            >
+                                <Stack
+                                    direction={"row"}
+                                    alignItems={"center"}
+                                    gap={2}
+                                >
+                                    <p className="body-large opacity-80">
+                                        {center._id}
+                                    </p>
+                                    <IconButton
+                                        size="small"
+                                        color="primary"
+                                        onClick={() => {
+                                            navigator.clipboard.writeText(
+                                                center._id || ""
+                                            );
+                                        }}
+                                    >
+                                        <ContentCopy />
+                                    </IconButton>
+                                </Stack>
+                            </Card>
+                        </>
+                    )}
+
                     {/* <Stack
                         alignItems={"center"}
                         direction={"row"}
