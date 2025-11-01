@@ -18,15 +18,13 @@ function Welcome() {
         <div className="bg-main">
             <Root>
                 <Stack
-                    paddingX={6}
-                    paddingTop={4}
+                    paddingTop={2}
                     paddingBottom={1}
                     alignItems={isMobile ? "center" : "start"}
                 >
-                    <Logo height={isMobile ? "32px" : "48px"} />
+                    <Logo height={isMobile ? "32px" : "40px"} />
                 </Stack>
                 <Stack
-                    paddingX={6}
                     direction={isMobile ? "column-reverse" : "row"}
                     gap={4}
                     alignItems={"center"}

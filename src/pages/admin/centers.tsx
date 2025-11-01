@@ -162,6 +162,7 @@ export default function Centers() {
                             sx={{
                                 px: "8px",
                                 py: "4px",
+                                minWidth: "max-content",
                                 bgcolor: scheme.secondary,
                                 color: scheme.onSecondary,
                             }}

@@ -64,7 +64,9 @@ export default function Home() {
     return (
         <Root>
             <Stack direction={"row"} alignItems={"center"} gap={2} paddingY={2}>
-                <Logo type="favicon" height="40px" />
+                <a title="Inicio" onClick={() => navigate("/")}>
+                    <Logo type="favicon" height="40px" />
+                </a>
                 {isLarge && (
                     <Stack flexGrow={1} direction={"row"} gap={4}>
                         <Tabs

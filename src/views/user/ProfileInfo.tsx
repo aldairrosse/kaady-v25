@@ -130,7 +130,7 @@ export default function ProfileInfo() {
                                 <ListItemText
                                     primary={
                                         <h2 className="title-medium">
-                                            Cambiar role
+                                            Cambiar de rol
                                         </h2>
                                     }
                                     secondary={
