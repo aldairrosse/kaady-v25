@@ -5,6 +5,8 @@ import { useContext } from "react";
 import Context from "@components/Context";
 import Rights from "@components/Rights";
 import { useNavigate } from "react-router";
+import InfoLinks from "@components/InfoLinks";
+import { FitnessCenter } from "@mui/icons-material";
 
 function Welcome() {
     const { theme } = useContext(Context);
@@ -67,8 +69,22 @@ function Welcome() {
                             >
                                 Registrarme
                             </Button>
-                            <Button size="large" onClick={toHome}>
-                                Conocer más
+                            <Button
+                                onClick={() => navigate("/login")}
+                                size="large"
+                            >
+                                Iniciar sesión
+                            </Button>
+                        </Stack>
+                        <Stack direction={"row"} mt={4}>
+                            <Button
+                                size="large"
+                                onClick={toHome}
+                                sx={{ px: 2 }}
+                                variant="outlined"
+                                startIcon={<FitnessCenter />}
+                            >
+                                Conocer servicios
                             </Button>
                         </Stack>
                     </Stack>
@@ -90,12 +106,8 @@ function Welcome() {
                         />
                     </Box>
                 </Stack>
-                <Stack
-                    direction="row"
-                    justifyContent="center"
-                    paddingX={4}
-                    paddingY={2}
-                >
+                <Stack padding={4} gap={4} component={"footer"}>
+                    <InfoLinks />
                     <Rights />
                 </Stack>
             </Root>

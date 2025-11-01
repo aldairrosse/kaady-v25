@@ -8,10 +8,16 @@ function Rights() {
     const { scheme } = useContext(Context);
 
     return (
-        <Stack direction={"row"} gap={2} alignItems={"center"}>
+        <Stack
+            direction={"row"}
+            gap={2}
+            alignItems={"center"}
+            justifyContent={"center"}
+            width={"100%"}
+        >
             <Logo type="icon" height="24px" color={scheme.onSurfaceVariant} />
             <Typography variant="body2" style={{ opacity: 0.7 }}>
-                © Kaady Sport. México. {year}
+                © Kaady Sport. México. 2023-{year}
             </Typography>
         </Stack>
     );
