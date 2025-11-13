@@ -17,11 +17,13 @@ import {
     useMediaQuery,
 } from "@mui/material";
 import { useContext, useMemo } from "react";
+import { useNavigate } from "react-router";
 
 export default function Partners() {
     const { theme, scheme } = useContext(Context);
     const isTablet = useMediaQuery(theme.breakpoints.down("md"));
     const imageSize = useMemo(() => "300px", []);
+    const navigate = useNavigate();
 
     const benefits = useMemo(
         () => [
@@ -218,6 +220,7 @@ export default function Partners() {
                         sx={{
                             padding: "12px 24px",
                         }}
+                        onClick={() => navigate("/center/request")}
                     >
                         Solicitar registro
                     </Button>

@@ -174,14 +174,8 @@ export default function Register() {
                 </Stack>
             </Container>
 
-            <Loading show={loading.show} message={loading.message} />
-            <SimpleDialog
-                show={alert.show}
-                title={alert.title}
-                message={alert.message}
-                okText={alert.text}
-                onClose={handleComplete}
-            />
+            <Loading {...loading} />
+            <SimpleDialog {...alert} onClose={handleComplete} />
         </Stack>
     );
 }

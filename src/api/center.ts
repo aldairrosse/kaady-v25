@@ -1,6 +1,7 @@
 import { useRequest } from "@hooks/useRequest";
 import { Center } from "@models/Center";
 import { Filtro, Paginator } from "@models/Settings";
+import { User } from "@models/User";
 
 export function useApiCenter() {
     const request = useRequest();
@@ -43,5 +44,21 @@ export function useApiCenter() {
         return res;
     }
 
-    return { listarCentros, actualizarCentro, registrarCentro };
+    async function registrarCentroUsuario(data: {
+        center: Partial<Center>;
+        user: Partial<User>;
+    }) {
+        const res = request<{ message: string }>("auth/center-register", {
+            method: "POST",
+            body: data,
+        });
+        return res;
+    }
+
+    return {
+        listarCentros,
+        actualizarCentro,
+        registrarCentro,
+        registrarCentroUsuario,
+    };
 }

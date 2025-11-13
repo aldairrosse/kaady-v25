@@ -33,7 +33,7 @@ export default function Role() {
                 sx={{
                     width: "100%",
                     maxWidth: "600px",
-                    padding: 2,
+                    padding: 4,
                     borderRadius: 4,
                 }}
                 border={"1px solid"}

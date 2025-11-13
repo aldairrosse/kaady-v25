@@ -22,6 +22,7 @@ export interface Center {
 
 export interface CenterLocation {
     address: string;
+    state?: string;
     latitude: number;
     longitude: number;
 }

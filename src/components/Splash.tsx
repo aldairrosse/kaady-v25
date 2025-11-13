@@ -1,4 +1,5 @@
 import { CircularProgress, Stack } from "@mui/material";
+import Logo from "./Logo";
 
 export default function Splash() {
     return (
@@ -8,8 +9,14 @@ export default function Splash() {
             padding={4}
             alignItems={"center"}
         >
-            <CircularProgress sx={{ mb: 2 }} size={64} thickness={3} disableShrink />
-            <p className="body-large">Iniciando...</p>
+            <Logo type="square" height="150px" />
+            <CircularProgress
+                sx={{ mb: 2, mt: 4 }}
+                size={48}
+                thickness={3}
+                disableShrink
+            />
+            <p className="body-large">Cargando...</p>
         </Stack>
     );
 }
